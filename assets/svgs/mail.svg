@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+  <g id="mail" transform="translate(-26 -174)">
+    <circle id="Ellipse_57" data-name="Ellipse 57" cx="7" cy="7" r="7" transform="translate(26 174)" fill="#f2f3f7"/>
+    <path id="mail-2" data-name="mail" d="M3.2,10.347a.7.7,0,0,1-.7-.7V5.2a.7.7,0,0,1,.7-.7h6a.7.7,0,0,1,.7.7V9.645a.7.7,0,0,1-.7.7Zm6.12-4.7L6.388,7.521a.275.275,0,0,1-.088.044.328.328,0,0,1-.195,0,.275.275,0,0,1-.088-.044L3.085,5.65v4a.116.116,0,0,0,.117.117h6a.116.116,0,0,0,.117-.117ZM6.2,7.034l3.06-1.949H3.143ZM3.085,5.65v0Z" transform="translate(26.974 173.612)" fill="#7c8ab0"/>
+  </g>
+</svg>

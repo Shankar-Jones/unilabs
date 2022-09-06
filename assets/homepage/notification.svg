@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="18.5" height="19.625" viewBox="0 0 18.5 19.625">
+  <g id="notification" transform="translate(-322.5 -51)">
+    <g id="Group_585" data-name="Group 585">
+      <path id="notification-2" data-name="notification" d="M5,18.875a.706.706,0,0,1-.537-.225.74.74,0,0,1-.213-.525.727.727,0,0,1,.75-.75H6.25v-7.25A5.65,5.65,0,0,1,7.5,6.537,5.572,5.572,0,0,1,10.75,4.5V3.8a1.25,1.25,0,1,1,2.5,0v.7A5.572,5.572,0,0,1,16.5,6.537a5.65,5.65,0,0,1,1.25,3.588v7.25H19a.725.725,0,0,1,.75.75.741.741,0,0,1-.212.525.709.709,0,0,1-.538.225ZM12,11.625ZM12,21.8A1.793,1.793,0,0,1,10.2,20h3.6A1.793,1.793,0,0,1,12,21.8ZM7.75,17.375h8.5v-7.25A4.246,4.246,0,0,0,12,5.875a4.246,4.246,0,0,0-4.25,4.25Z" transform="translate(318.25 48.825)" fill="#7c8ab0"/>
+      <circle id="Ellipse_3" data-name="Ellipse 3" cx="5" cy="5" r="5" transform="translate(331 51)" fill="#e54242"/>
+      <text id="_2" data-name="2" transform="translate(334 58)" fill="#fff" font-size="7" font-family="Poppins-Regular, Poppins"><tspan x="0" y="0">2</tspan></text>
+    </g>
+  </g>
+</svg>

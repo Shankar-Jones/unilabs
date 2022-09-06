@@ -1,0 +1,134 @@
+{
+  "project_info": {
+    "project_number": "246154577277",
+    "project_id": "medical-eq",
+    "storage_bucket": "medical-eq.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246154577277:android:b9cb92f6ff95e451b4b814",
+        "android_client_info": {
+          "package_name": "com.medceqp.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "246154577277-3j9q71e4gah1uvv6r8norocagj13d5n9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.medceqp.app",
+            "certificate_hash": "3e2b5d4dcad3b3ecfb4ef76884ceb514d32ae02e"
+          }
+        },
+        {
+          "client_id": "246154577277-71r6mcuijhm7jse6snn36mmsv3ipru5e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpL4h-mMeynhY737qY0nmHjDYOfG6P5v0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "246154577277-71r6mcuijhm7jse6snn36mmsv3ipru5e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "246154577277-8qcuh2jvuh81rp5b7t1264rha2akuctu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.medceqp.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246154577277:android:7653e2389daa4e46b4b814",
+        "android_client_info": {
+          "package_name": "com.onlineff.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "246154577277-op7ia7sjt17gkgl7utf4mfg2itnk8met.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.onlineff.app",
+            "certificate_hash": "3e2b5d4dcad3b3ecfb4ef76884ceb514d32ae02e"
+          }
+        },
+        {
+          "client_id": "246154577277-71r6mcuijhm7jse6snn36mmsv3ipru5e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpL4h-mMeynhY737qY0nmHjDYOfG6P5v0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "246154577277-71r6mcuijhm7jse6snn36mmsv3ipru5e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "246154577277-8qcuh2jvuh81rp5b7t1264rha2akuctu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.medceqp.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246154577277:android:dcfe5bf313b67670b4b814",
+        "android_client_info": {
+          "package_name": "com.onshop.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "246154577277-71r6mcuijhm7jse6snn36mmsv3ipru5e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpL4h-mMeynhY737qY0nmHjDYOfG6P5v0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "246154577277-71r6mcuijhm7jse6snn36mmsv3ipru5e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "246154577277-8qcuh2jvuh81rp5b7t1264rha2akuctu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.medceqp.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

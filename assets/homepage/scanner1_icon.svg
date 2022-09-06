@@ -1,0 +1,10 @@
+<svg id="scanner1_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#a994e6"/>
+      <stop offset="1" stop-color="#7e78ee"/>
+    </linearGradient>
+  </defs>
+  <path id="Path_505" data-name="Path 505" d="M0,0H32V32H0Z" fill="none"/>
+  <path id="Path_506" data-name="Path 506" d="M19,3h8V9.667H24.333v-4H19ZM11,3V5.667H5.667v4H3V3Zm8,24V24.333h5.333v-4H27V27Zm-8,0H3V20.333H5.667v4H11ZM3,13.667H27v2.667H3Z" transform="translate(1 1)" fill="url(#linear-gradient)"/>
+</svg>

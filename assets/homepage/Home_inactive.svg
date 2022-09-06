@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="38" viewBox="0 0 30 38">
+  <g id="Home_inactive" transform="translate(-21 -716)">
+    <text id="Home" transform="translate(21 750)" fill="#b8bac5" font-size="10" font-family="Poppins-Regular, Poppins"><tspan x="0" y="0">Home</tspan></text>
+    <path id="home1" d="M6.073,19.727H9.585V13.489h5.557v6.238h3.512V10.291L12.364,5.547,6.073,10.291Zm0,1.573A1.568,1.568,0,0,1,4.5,19.727V10.291a1.568,1.568,0,0,1,.17-.708,1.5,1.5,0,0,1,.459-.55L11.42,4.288a1.343,1.343,0,0,1,.446-.223,1.94,1.94,0,0,1,1,0,1.343,1.343,0,0,1,.446.223L19.6,9.033a1.488,1.488,0,0,1,.458.55,1.56,1.56,0,0,1,.171.708v9.436A1.568,1.568,0,0,1,18.655,21.3H13.569V15.062H11.158V21.3ZM12.364,12.65Z" transform="translate(23.5 712)" fill="#b8bac5"/>
+  </g>
+</svg>

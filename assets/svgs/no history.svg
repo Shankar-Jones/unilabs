@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="212" height="135.64" viewBox="0 0 212 135.64">
+  <g id="no_history" data-name="no history" transform="translate(-74 -334.36)">
+    <text id="No_History_available" data-name="No History available" transform="translate(180 464)" fill="#f1f3fb" font-size="22" font-family="OpenSans-SemiBold, Open Sans" font-weight="600" letter-spacing="-0.005em"><tspan x="-105.791" y="0">No History available</tspan></text>
+    <path id="Icon_material-history" data-name="Icon material-history" d="M51.021,4.5A37.143,37.143,0,0,0,13.88,41.64H1.5L17.553,57.693l.289.578L34.514,41.64H22.134a29.025,29.025,0,1,1,8.5,20.386l-5.86,5.86A37.131,37.131,0,1,0,51.021,4.5ZM46.894,25.134V45.767L64.556,56.249l2.971-4.993L53.084,42.672V25.134Z" transform="translate(135.5 329.86)" fill="#f1f3fb"/>
+  </g>
+</svg>

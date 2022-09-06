@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="274" height="235" viewBox="0 0 274 235">
+  <defs>
+    <filter id="Rectangle_6708" x="0" y="0" width="274" height="235" filterUnits="userSpaceOnUse">
+      <feOffset dy="10" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="35" result="blur"/>
+      <feFlood flood-opacity="0.051"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="StopButton_homePage" transform="translate(-175.5 55.5)">
+    <g transform="matrix(1, 0, 0, 1, 175.5, -55.5)" filter="url(#Rectangle_6708)">
+      <rect id="Rectangle_6708-2" data-name="Rectangle 6708" width="63" height="24" rx="3" transform="translate(105.5 95.5)" fill="none" stroke="#847ced" stroke-width="1"/>
+    </g>
+    <g id="Group_1099" data-name="Group 1099" transform="translate(32.617)">
+      <g id="Group_1098" data-name="Group 1098" transform="translate(257.383 44.192)">
+        <g id="Group_1097" data-name="Group 1097" transform="translate(0)">
+          <path id="Path_2979" data-name="Path 2979" d="M7.677,7.68a2.762,2.762,0,0,1,2.038-.66H11.56a2.765,2.765,0,0,1,2.034.657,2.762,2.762,0,0,1,.66,2.038V11.56a.545.545,0,0,1-1.09,0V9.715a1.727,1.727,0,0,0-.34-1.267A1.731,1.731,0,0,0,11.56,8.11H9.715a1.727,1.727,0,0,0-1.267.34A1.731,1.731,0,0,0,8.11,9.715V11.56a1.727,1.727,0,0,0,.34,1.267,1.731,1.731,0,0,0,1.265.338h1.293a.545.545,0,0,1,0,1.09H9.715A2.765,2.765,0,0,1,7.68,13.6a2.762,2.762,0,0,1-.66-2.038V9.715A2.765,2.765,0,0,1,7.677,7.68Z" transform="translate(-2.829 -2.829)" fill="#8f83eb" fill-rule="evenodd"/>
+          <path id="Path_2980" data-name="Path 2980" d="M5.909,1.915a7.71,7.71,0,0,1,3.15-.665A7.808,7.808,0,1,1,2.811,4.374a.545.545,0,0,1,.872.653A6.719,6.719,0,1,0,9.058,2.34a6.621,6.621,0,0,0-2.7.57.545.545,0,1,1-.445-.995Z" transform="translate(-1.25 -1.25)" fill="#8f83eb" fill-rule="evenodd"/>
+        </g>
+      </g>
+      <text id="Stop" transform="translate(290 56)" fill="#8f83eb" font-size="12" font-family="OpenSans-Regular, Open Sans" letter-spacing="-0.005em"><tspan x="-12.622" y="0">Stop</tspan></text>
+    </g>
+  </g>
+</svg>

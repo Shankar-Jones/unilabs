@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="124" height="146.869" viewBox="0 0 124 146.869">
+  <g id="no_update" data-name="no update" transform="translate(-118 -307)">
+    <g id="Group_1017" data-name="Group 1017" transform="translate(0 -9.771)">
+      <text id="No_Updates_available" data-name="No Updates
+ available" transform="translate(180 428.64)" fill="#f1f3fb" font-size="22" font-family="OpenSans-SemiBold, Open Sans" font-weight="600" letter-spacing="-0.005em"><tspan x="-61.965" y="0">No Updates</tspan><tspan x="-49.784" y="29" xml:space="preserve"> available</tspan></text>
+      <g id="Group_1017-2" data-name="Group 1017" transform="translate(13.197 132.126)">
+        <path id="Path_2862" data-name="Path 2862" d="M260.68,25.228l-4.516,4.516V22.582A22.605,22.605,0,0,0,233.582,0H211V9.033h22.582a13.564,13.564,0,0,1,13.549,13.549v7.163l-4.516-4.516-6.386,6.386,15.419,15.419,15.419-15.419Z" transform="translate(-62.263 184.645)" fill="#f1f3fb"/>
+        <path id="Path_2861" data-name="Path 2861" d="M164.724,78.241V71.078l4.516,4.516,6.386-6.386L160.208,53.789,144.789,69.208l6.386,6.386,4.516-4.516v7.163a22.605,22.605,0,0,0,22.582,22.582h22.582V91.79H178.273A13.564,13.564,0,0,1,164.724,78.241Z" transform="translate(-15.986 147.051)" fill="#f1f3fb"/>
+      </g>
+    </g>
+  </g>
+</svg>

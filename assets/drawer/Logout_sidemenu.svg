@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Logout_sidemenu" transform="translate(-17 -469)">
+    <path id="Path_505" data-name="Path 505" d="M0,0H24V24H0Z" transform="translate(17 469)" fill="none"/>
+    <g id="bx-power-off" transform="translate(18 471)">
+      <path id="Path_2835" data-name="Path 2835" d="M10.691,18.477A6.688,6.688,0,0,0,13.2,5.589V7.448a5.018,5.018,0,1,1-5.018,0V5.589a6.688,6.688,0,0,0,2.509,12.888Z" transform="translate(0 -0.587)" fill="#fff"/>
+      <path id="Path_2836" data-name="Path 2836" d="M11,2h1.673v8.363H11Z" transform="translate(-1.146)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

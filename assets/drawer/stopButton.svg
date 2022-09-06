@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="87.534" height="87.534" viewBox="0 0 87.534 87.534">
+  <defs>
+    <filter id="Ellipse_29" x="0" y="0" width="87.534" height="87.534" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.239"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#a994e6"/>
+      <stop offset="1" stop-color="#7e78ee"/>
+    </linearGradient>
+  </defs>
+  <g id="stopButton" transform="translate(-136.233 -611.466)">
+    <g transform="matrix(1, 0, 0, 1, 136.23, 611.47)" filter="url(#Ellipse_29)">
+      <ellipse id="Ellipse_29-2" data-name="Ellipse 29" cx="34.767" cy="34.767" rx="34.767" ry="34.767" transform="translate(9 9)" fill="#fff"/>
+    </g>
+    <ellipse id="Ellipse_30" data-name="Ellipse 30" cx="31.533" cy="31.533" rx="31.533" ry="31.533" transform="translate(148.467 623.7)" fill="url(#linear-gradient)"/>
+    <g id="Group_1098" data-name="Group 1098" transform="translate(164.814 640.048)">
+      <g id="Group_1097" data-name="Group 1097" transform="translate(0 0)">
+        <path id="Path_2979" data-name="Path 2979" d="M8.3,8.3A5.371,5.371,0,0,1,12.261,7.02h3.588A5.378,5.378,0,0,1,19.8,8.3a5.371,5.371,0,0,1,1.284,3.964v3.588a1.059,1.059,0,0,1-2.119,0V12.261A3.358,3.358,0,0,0,18.308,9.8a3.366,3.366,0,0,0-2.46-.658H12.261A3.359,3.359,0,0,0,9.8,9.8a3.366,3.366,0,0,0-.658,2.46v3.588A3.359,3.359,0,0,0,9.8,18.312a3.366,3.366,0,0,0,2.46.658h2.514a1.059,1.059,0,1,1,0,2.119H12.261A5.378,5.378,0,0,1,8.3,19.812,5.371,5.371,0,0,1,7.02,15.848V12.261A5.378,5.378,0,0,1,8.3,8.3Z" transform="translate(1.13 1.13)" fill="#fff" fill-rule="evenodd"/>
+        <path id="Path_2980" data-name="Path 2980" d="M10.31,2.543A14.994,14.994,0,0,1,16.435,1.25,15.185,15.185,0,1,1,4.286,7.325a1.059,1.059,0,0,1,1.7,1.27A13.066,13.066,0,1,0,16.435,3.369a12.876,12.876,0,0,0-5.26,1.108,1.059,1.059,0,1,1-.865-1.934Z" transform="translate(-1.25 -1.25)" fill="#fff" fill-rule="evenodd"/>
+      </g>
+    </g>
+  </g>
+</svg>
