@@ -1,14 +1,16 @@
-import 'dart:convert';
+
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:onshop/Controllers/ApiCalls.dart';
-import 'package:onshop/Models/MedButton.dart';
-import 'package:onshop/Views/Home/BasePage.dart';
-import 'package:onshop/Views/Home/Home.dart';
-import 'package:onshop/Views/SignUp/PersonalDetailsPage.dart';
+import 'package:unilabs/Controllers/ApiCalls.dart';
+import 'package:unilabs/Models/MedButton.dart';
+import 'package:unilabs/Views/Home/BasePage.dart';
+import 'package:unilabs/Views/Home/Home.dart';
+import 'package:unilabs/Views/SignUp/PersonalDetailsPage.dart';
 
 import 'package:pinput/pinput.dart';
 
@@ -20,19 +22,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pinput/pinput.dart';
-
 import '../../Models/Theme.dart';
+bool resend=false;
   final _pinPutController = TextEditingController();
 final AppTheme = GetStorage();
 final TempnormalStorage=GetStorage();
+final UlStorage=GetStorage();
+
+
 class OtpScreen extends StatefulWidget {
+
   final Fulldata;
-   
+  final fctoken;
+
 
   const OtpScreen({
     Key? key,
     required this.Fulldata,
-     
+    required this.fctoken,
+
 
   }) : super(key: key);
 
@@ -42,19 +50,39 @@ class OtpScreen extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<OtpScreen> {
-bool MobileNumberPage = true;
+
+  bool MobileNumberPage = true;
 final mobnumber = ' ';
  FirebaseAuth auth = FirebaseAuth.instance;
- final ShopStorage=GetStorage();
+  Timer? _timer;
+  int _start = 10;
+  void startTimer() {
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
+          (Timer timer)
+      {        if (_start == 0) {
+        setState(() {
+          timer.cancel();
+        });
+      } else {
+        setState(() {
+          _start--;
+        });
+      }
+      },
+    );
+  }
   List catlist=[];
    categorygetcall() async{
-    List respon=await GetMethod('addCategory/RH46IB');
+    List respon=await GetMethod('addCategory/RHVR5A');
     setState(() {
       catlist=respon;
     });
   }
   void initState() {
    _pinPutController.clear();
+    startTimer();
 
     super.initState();
      
@@ -67,6 +95,9 @@ final mobnumber = ' ';
  
   @override
   Widget build(BuildContext context) {
+
+     print(UlStorage.read('u_name'));
+     print(TempnormalStorage.read('verificationId'));
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -76,9 +107,10 @@ final mobnumber = ' ';
             decoration: BoxDecoration(
                 gradient: AppTheme.read('mode')=="0" ?
                 LinearGradient(
-                  colors: [UiColors.primarySec,UiColors.primary,],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
+                    colors: [UiColors.gradient1,UiColors.gradient2,],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [-10,10]
                 ) : LinearGradient(
                   colors: [UiColors.BottomNavDarkmode,UiColors.BottomNavDarkmode,],
                   begin: Alignment.centerLeft,
@@ -101,16 +133,14 @@ final mobnumber = ' ';
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(height: 25),
-                        Card(
-                          elevation: 5,
+                        Container(
+
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 25.0,horizontal: 40),
-                            child: SvgPicture.asset('assets/svgs/DNA.svg',height: 70,color: UiColors.primary),
+                            padding: const EdgeInsets.only(left:40,right:40,top: 40,bottom: 0),
+                            child: Image.asset('assets/unobiLabs_login.png',height: 130,),
                           ),
                         ),
-                        SizedBox(height: 10),
-                        Text('On-Shop',style: TextStyle(color: Colors.white,fontFamily: 'semi bold',fontSize: 22),)
-                      ],
+                        ],
                     ),
                   ),
                 ),
@@ -129,10 +159,10 @@ final mobnumber = ' ';
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         SizedBox(height: 15,),
-                        Text('OTP Verification',style: TextStyle(fontSize: 25,fontFamily: 'sans bold',color: AppTheme.read('mode')=="0" ? Colors.black : Colors.white),),
+                        Text('OTP Verification',style: TextStyle(fontSize: 25,fontFamily: 'cera medium',color: AppTheme.read('mode')=="0" ? Colors.black : Colors.white),),
 
                          SizedBox(height: 45,),
-                        Text('Enter OTP number,\n We have sent to ${TempnormalStorage.read('mob')}',textAlign: TextAlign.center,style: TextStyle(fontFamily: 'sans bold',fontSize: 17,color:AppTheme.read('mode')=="0" ? Colors.black  : Colors.white),),
+                        Text('Enter OTP number,\n We have sent to ${TempnormalStorage.read('mobs')}',textAlign: TextAlign.center,style: TextStyle(fontFamily: 'cera medium',fontSize: 17,color:AppTheme.read('mode')=="0" ? Colors.black  : Colors.white),),
                         SizedBox(height: 15,),
                         Container(
                             width: 250,
@@ -183,7 +213,36 @@ final mobnumber = ' ';
                               ),
                             ),
                                 )),
-                        SizedBox(height: 45,),
+                        SizedBox(height: 20,),
+
+                       _start==0 ? SizedBox():  Text('Remaining Time : ${_start.toString()}s'),
+                     Row(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                            SizedBox(width: 30,),
+                            Text("Didn't receive a code?"),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 0),
+                              child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: TextButton(onPressed: () {
+                                    if(_start==0){
+                                    showDialog(
+                                        barrierDismissible: false,
+                                        context: context,
+                                        builder: (BuildContext context){
+                                          return Loading(title: "Resending",);
+                                        }
+                                    );
+                                    resendOtp();}
+
+                                  },
+
+                                  child: Text('Resend Otp',style: TextStyle(color:_start==0? Colors.blue : Colors.grey,decoration: TextDecoration.underline,fontFamily: 'cera medium'),))),
+                            ),
+                       ],
+                     ),
+                        SizedBox(height: 10,),
                         Align(
                             alignment: Alignment.bottomCenter,
                             child: UiButton(text: 'Verify', ontap: ()async{
@@ -207,6 +266,50 @@ final mobnumber = ' ';
       ),
     );
   }
+  void resendOtp() async {
+  print("ssssssssssssssssssssssss");
+  print(TempnormalStorage.read('mobs'));
+    auth.verifyPhoneNumber(
+      phoneNumber:TempnormalStorage.read('mobs'),
+
+
+      verificationCompleted: (PhoneAuthCredential credential) async {
+
+        await auth.signInWithCredential(credential).then((value) {});
+      },
+      verificationFailed: (FirebaseAuthException e) {
+
+        errortoast("${e.message}");
+
+
+      },
+      codeSent: (String verificationId, int? resendToken) async {
+        print("ssssssssssssssssssssssssaaaaaa");
+        TempnormalStorage.write('verificationId', '${verificationId}');
+        TempnormalStorage.write('mobs', '${TempnormalStorage.read('mobs')}');
+        TempnormalStorage.write('fcm', widget.fctoken);
+        setState(() {
+          TempnormalStorage.write('verificationId', '${verificationId}');
+          TempnormalStorage.write('mobs', '${TempnormalStorage.read('mobs')}');
+          TempnormalStorage.write('fcm', widget.fctoken);
+        });
+        if(widget.Fulldata[0]['status']=='noks'){
+          Navigator.pop(context);
+          errortoast("Failed to send");
+        }
+        else{
+          successtoast("OTP successfully sent");
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => OtpScreen(Fulldata:widget.Fulldata, fctoken: widget.fctoken,))
+          );
+
+        }
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
+    );
+  }
   void verifyOTP() async {
     try {
       showDialog(
@@ -222,40 +325,8 @@ final mobnumber = ' ';
 
     await auth.signInWithCredential(credential).then(
           (value) {
-            successtoast("Verified Successfully");
-            if(widget.Fulldata[0]['status']=='Mobile Number Found'){
-                          setState(() {
-                            ShopStorage.write('mob', TempnormalStorage.read('mob'));
-                          ShopStorage.write('u_address', widget.Fulldata[0]['u_address']);
-                          ShopStorage.write('u_city', widget.Fulldata[0]['u_city']);
-                          ShopStorage.write('u_country',  widget.Fulldata[0]['u_country']);
-                          ShopStorage.write('u_district',  widget.Fulldata[0]['u_district']);
-                          ShopStorage.write('u_door',  widget.Fulldata[0]['u_door']);
-                          ShopStorage.write('u_mail', widget.Fulldata[0]['u_email']);
-                          ShopStorage.write('u_state', widget.Fulldata[0]['u_state']);
-                          ShopStorage.write('u_country',  widget.Fulldata[0]['u_country']);
-                          ShopStorage.write('u_name', widget.Fulldata[0]['u_name']);
-                             ShopStorage.write('uid', widget.Fulldata[0]['id']);
-                                ShopStorage.write('comcode','RH46IB');
-                          });
-                         Navigator.pushAndRemoveUntil(
-                                              context, MaterialPageRoute(builder: (context) => BaseScreen()),
-                                                  (Route<dynamic> route) => false,
-                                            );
-                        
-            }
-
-            if(widget.Fulldata[0]['status']=='Mobile Number Not Found'){
-                ShopStorage.write('mob',TempnormalStorage.read('mob'));
-                 Navigator.pushAndRemoveUntil(
-                                              context, MaterialPageRoute(builder: (context) => PersonalDetailsPage(catdata: catlist)),
-                                                  (Route<dynamic> route) => false,
-                                            );
-             
-            }
-            if(widget.Fulldata[0]['status']=='nok' ){
-              errortoast("something went worng");
-            }
+         //   successtoast("Verified Successfully");
+suceslo();
              
 
       },
@@ -265,11 +336,13 @@ final mobnumber = ' ';
      
       if(e.toString().contains('credential is invalid') || e.toString().contains('sms code has expired')) {
         if (e.toString().contains('credential is invalid')) {
-          errortoast('Failed to verify');
+          errortoast('Invalid OTP');
           Closepop(context);
         }
         if (e.toString().contains('sms code has expired')) {
+          Navigator.pop(context);
           errortoast("Code has expired try resend OTP");
+
            
         }
       }
@@ -282,5 +355,45 @@ final mobnumber = ' ';
     }
 
   }
-  
+
+    suceslo() {
+
+      if(widget.Fulldata[0]['status']=='Mobile Number Found'){
+
+        setState(() {
+          UlStorage.write('mob', TempnormalStorage.read('mobs'));
+          UlStorage.write('u_address', widget.Fulldata[0]['u_address']);
+          UlStorage.write('u_city', widget.Fulldata[0]['u_city']);
+          UlStorage.write('u_country',  widget.Fulldata[0]['u_country']);
+          UlStorage.write('u_district',  widget.Fulldata[0]['u_district']);
+          UlStorage.write('u_door',  widget.Fulldata[0]['u_door']);
+          UlStorage.write('l_name',  widget.Fulldata[0]['l_labname']);
+          UlStorage.write('l_address',  widget.Fulldata[0]['l_labaddress']);
+          UlStorage.write('u_mail', widget.Fulldata[0]['u_email']);
+          UlStorage.write('u_state', widget.Fulldata[0]['u_state']);
+          UlStorage.write('u_country',  widget.Fulldata[0]['u_country']);
+          UlStorage.write('u_name', widget.Fulldata[0]['u_name']);
+          UlStorage.write('profile', widget.Fulldata[0]['u_profile']);
+          UlStorage.write('uid', widget.Fulldata[0]['id']);
+          UlStorage.write('pincode', widget.Fulldata[0]['u_pincode']);
+          UlStorage.write('comcode','RHVR5A');
+        });
+        Navigator.pushAndRemoveUntil(
+          context, MaterialPageRoute(builder: (context) => BaseScreen(toScreen: '',)),
+              (Route<dynamic> route) => false,
+        );}
+
+
+      if(widget.Fulldata[0]['status']=='Mobile Number Not Found'){
+        UlStorage.write('mob',TempnormalStorage.read('mobs'));
+        Navigator.pushAndRemoveUntil(
+          context, MaterialPageRoute(builder: (context) => PersonalDetailsPage(catdata: catlist)),
+              (Route<dynamic> route) => false,);
+
+      }
+      if(widget.Fulldata[0]['status']=='nok'){
+        errortoast("something went wrong");
+      }
+    }
+
 }

@@ -1,6 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="39" height="38" viewBox="0 0 39 38">
-  <g id="Mycart__inactive" transform="translate(-161 -716)">
-    <text id="My_Cart" data-name="My Cart" transform="translate(161 750)" fill="#b8bac5" font-size="10" font-family="Poppins-Regular, Poppins"><tspan x="0" y="0">My Cart</tspan></text>
-    <path id="mycart" d="M7.16,21.25a1.7,1.7,0,0,1-1.239-.5,1.7,1.7,0,0,1,0-2.438,1.775,1.775,0,0,1,2.478,0,1.7,1.7,0,0,1,0,2.438,1.7,1.7,0,0,1-1.239.5Zm9.717,0a1.7,1.7,0,0,1-1.239-.5,1.7,1.7,0,0,1,0-2.438,1.775,1.775,0,0,1,2.478,0,1.7,1.7,0,0,1,0,2.438A1.7,1.7,0,0,1,16.876,21.25ZM6.033,5.7l2.529,5.218h7.012l2.78-4.947a.182.182,0,0,0,0-.184A.163.163,0,0,0,18.2,5.7ZM7.16,16.328a1.634,1.634,0,0,1-1.5-.849,1.579,1.579,0,0,1-.025-1.686L7.06,11.258,3.4,3.727H2.226A.721.721,0,0,1,1.5,2.988a.713.713,0,0,1,.212-.53.739.739,0,0,1,.539-.209H3.779a.912.912,0,0,1,.476.135.924.924,0,0,1,.351.382l.7,1.452h13.9a1.034,1.034,0,0,1,.977,1.575L16.952,11.5a1.635,1.635,0,0,1-.626.652,1.753,1.753,0,0,1-.9.234H8.111L6.959,14.482a.237.237,0,0,0-.012.246.219.219,0,0,0,.212.123H17.9a.688.688,0,0,1,.514.222.723.723,0,0,1,.212.517.71.71,0,0,1-.212.529.737.737,0,0,1-.539.21Zm1.4-5.415h0Z" transform="translate(169.5 713.75)" fill="#b8bac5"/>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="37" height="41" viewBox="0 0 37 41">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0.329" stop-color="#5f3794"/>
+      <stop offset="0.689" stop-color="#473392"/>
+      <stop offset="1" stop-color="#363091"/>
+    </linearGradient>
+  </defs>
+  <g id="MyCart_inactive" transform="translate(-162 -712)">
+    <g id="my_cart" data-name="my cart" transform="translate(170 712)">
+      <path id="Path_174" data-name="Path 174" d="M20.213,3.576a2.679,2.679,0,0,0-2.05-.945H3.775l-.037-.308A2.657,2.657,0,0,0,1.087,0H.89A.884.884,0,0,0,0,.877a.884.884,0,0,0,.89.877h.2a.885.885,0,0,1,.884.774L3.2,12.793a4.428,4.428,0,0,0,4.419,3.875h9.294a.877.877,0,1,0,0-1.754H7.615a2.668,2.668,0,0,1-2.51-1.754H15.714A4.433,4.433,0,0,0,20.093,9.55l.7-3.819a2.6,2.6,0,0,0-.578-2.154ZM19.045,5.42l-.7,3.819A2.66,2.66,0,0,1,15.714,11.4H4.823L3.985,4.386H18.164a.9.9,0,0,1,.687.313A.868.868,0,0,1,19.045,5.42Z" transform="translate(0)" fill="url(#linear-gradient)"/>
+      <ellipse id="Ellipse_53" data-name="Ellipse 53" cx="1.733" cy="1.733" rx="1.733" ry="1.733" transform="translate(4.474 17.534)" fill="url(#linear-gradient)"/>
+      <ellipse id="Ellipse_54" data-name="Ellipse 54" cx="1.733" cy="1.733" rx="1.733" ry="1.733" transform="translate(13.422 17.534)" fill="url(#linear-gradient)"/>
+    </g>
+    <text id="My_Cart-2" data-name="My Cart" transform="translate(162 750)" fill="#373091" font-size="10" font-family="CeraPro-Medium, Cera Pro" font-weight="500"><tspan x="0" y="0">My Cart</tspan></text>
   </g>
 </svg>

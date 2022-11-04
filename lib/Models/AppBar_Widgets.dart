@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
+import 'Theme.dart';
+
 shopappBar(text,context){
   return AppBar(
     elevation: 0,
     backgroundColor: Colors.white,
-    title: Text(text,style: TextStyle(fontSize: 17.5,fontFamily: 'poppins'),),
+    title: Text(text,style: TextStyle(fontSize: 17.5,fontFamily: 'poppins',color: Colors.black),),
     centerTitle: true,
     leading: IconButton(
       onPressed: (){
         Navigator.pop(context);
-      },icon: Icon(Icons.arrow_back_ios),),
+      },icon: Icon(Icons.arrow_back_ios,color: Colors.black,),),
 
   );
 

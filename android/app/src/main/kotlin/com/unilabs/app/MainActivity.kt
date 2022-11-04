@@ -1,4 +1,4 @@
-package com.onshop.app
+package com.unobilabs.app
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>246154577277-95bv9bfb0erub99llooqi9e1ho5beh3v.apps.googleusercontent.com</string>
+	<string>248978469915-qafnr3sa7b7qev3ach5tnp3ami5pj4ff.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.246154577277-95bv9bfb0erub99llooqi9e1ho5beh3v</string>
+	<string>com.googleusercontent.apps.248978469915-qafnr3sa7b7qev3ach5tnp3ami5pj4ff</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>246154577277-3j9q71e4gah1uvv6r8norocagj13d5n9.apps.googleusercontent.com</string>
+	<string>248978469915-f907t2ln1jnrk5ol1god8spsq8r2te5n.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAh1fFflHd0qIoJq3chwfirf-1fWyamCAI</string>
+	<string>AIzaSyA6bsANk_AmuovGCJzCj2Ld2473gkPMg1w</string>
 	<key>GCM_SENDER_ID</key>
-	<string>246154577277</string>
+	<string>248978469915</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.onshop.app</string>
+	<string>com.unobilabs.app</string>
 	<key>PROJECT_ID</key>
-	<string>medical-eq</string>
+	<string>robotalks-1fdc8</string>
 	<key>STORAGE_BUCKET</key>
-	<string>medical-eq.appspot.com</string>
+	<string>robotalks-1fdc8.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:246154577277:ios:8a5d560dc218c932b4b814</string>
+	<string>1:248978469915:ios:a741127b3e7f57d1f5b4be</string>
 </dict>
 </plist>

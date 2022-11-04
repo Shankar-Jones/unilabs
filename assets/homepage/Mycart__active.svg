@@ -1,6 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="39" height="38" viewBox="0 0 39 38">
-  <g id="Mycart__active" transform="translate(-161 -716)">
-    <text id="My_Cart" data-name="My Cart" transform="translate(161 750)" fill="#7c8ab0" font-size="10" font-family="Poppins-Regular, Poppins"><tspan x="0" y="0">My Cart</tspan></text>
-    <path id="mycart" d="M7.16,21.25a1.7,1.7,0,0,1-1.239-.5,1.7,1.7,0,0,1,0-2.438,1.775,1.775,0,0,1,2.478,0,1.7,1.7,0,0,1,0,2.438,1.7,1.7,0,0,1-1.239.5Zm9.717,0a1.7,1.7,0,0,1-1.239-.5,1.7,1.7,0,0,1,0-2.438,1.775,1.775,0,0,1,2.478,0,1.7,1.7,0,0,1,0,2.438A1.7,1.7,0,0,1,16.876,21.25ZM6.033,5.7l2.529,5.218h7.012l2.78-4.947a.182.182,0,0,0,0-.184A.163.163,0,0,0,18.2,5.7ZM7.16,16.328a1.634,1.634,0,0,1-1.5-.849,1.579,1.579,0,0,1-.025-1.686L7.06,11.258,3.4,3.727H2.226A.721.721,0,0,1,1.5,2.988a.713.713,0,0,1,.212-.53.739.739,0,0,1,.539-.209H3.779a.912.912,0,0,1,.476.135.924.924,0,0,1,.351.382l.7,1.452h13.9a1.034,1.034,0,0,1,.977,1.575L16.952,11.5a1.635,1.635,0,0,1-.626.652,1.753,1.753,0,0,1-.9.234H8.111L6.959,14.482a.237.237,0,0,0-.012.246.219.219,0,0,0,.212.123H17.9a.688.688,0,0,1,.514.222.723.723,0,0,1,.212.517.71.71,0,0,1-.212.529.737.737,0,0,1-.539.21Zm1.4-5.415h0Z" transform="translate(169.5 713.75)" fill="#7c8ab0"/>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="37" height="41" viewBox="0 0 37 41">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0.329" stop-color="#5f3794"/>
+      <stop offset="0.689" stop-color="#473392"/>
+      <stop offset="1" stop-color="#363091"/>
+    </linearGradient>
+  </defs>
+  <g id="MyCart_active" transform="translate(-162 -712)">
+    <text id="My_Cart" data-name="My Cart" transform="translate(162 750)" fill="#373091" font-size="10" font-family="CeraPro-Medium, Cera Pro" font-weight="500"><tspan x="0" y="0">My Cart</tspan></text>
+    <g id="my_cart_active" transform="translate(170 712)">
+      <path id="Path_173" data-name="Path 173" d="M20.374,3.626a2.694,2.694,0,0,0-2.066-.958H3.805l-.038-.312A2.683,2.683,0,0,0,1.1,0H.9a.889.889,0,1,0,0,1.779h.2a.894.894,0,0,1,.891.785L3.221,12.969A4.472,4.472,0,0,0,7.676,16.9h9.367a.889.889,0,1,0,0-1.779H7.676a2.69,2.69,0,0,1-2.53-1.779H15.839a4.475,4.475,0,0,0,4.414-3.658l.7-3.872a2.646,2.646,0,0,0-.583-2.184Z" fill="url(#linear-gradient)"/>
+      <ellipse id="Ellipse_51" data-name="Ellipse 51" cx="1.641" cy="1.641" rx="1.641" ry="1.641" transform="translate(4.564 17.718)" fill="url(#linear-gradient)"/>
+      <ellipse id="Ellipse_52" data-name="Ellipse 52" cx="1.641" cy="1.641" rx="1.641" ry="1.641" transform="translate(13.691 17.718)" fill="url(#linear-gradient)"/>
+    </g>
   </g>
 </svg>

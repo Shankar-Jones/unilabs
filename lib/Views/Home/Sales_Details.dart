@@ -10,12 +10,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:onshop/Controllers/Constants.dart';
-import 'package:onshop/Models/AppBar_Widgets.dart';
-import 'package:onshop/Models/Loading.dart';
-import 'package:onshop/Models/Theme.dart';
-import 'package:onshop/Models/dashedseprator.dart';
+import 'package:unilabs/Controllers/Constants.dart';
+import 'package:unilabs/Models/AppBar_Widgets.dart';
+import 'package:unilabs/Models/Loading.dart';
+import 'package:unilabs/Models/Theme.dart';
+import 'package:unilabs/Models/dashedseprator.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:unilabs/Views/Home/Reports_Pdf.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 List indata=[];
@@ -94,7 +95,28 @@ class _BillDetailsState extends State<BillDetails> {
     return SafeArea(
       child: Scaffold(
      
-      appBar:shopappBar('Bill Details', context),
+      appBar:AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        title: Text('Order Receipt',style: TextStyle(fontSize: 17.5,fontFamily: 'poppins',color: Colors.black),),
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: (){
+            Navigator.pop(context);
+          },icon: Icon(Icons.arrow_back_ios,color: Colors.black,),),
+       /* actions: [
+          IconButton(
+             onPressed: () async{
+            await canLaunch( 'https://refreshtechlabs.com/online_store/invoiceb2b_2.php?invnumber=${widget.invnumber}&theme=t1c1&project=robotalks-1fdc8&version=IN');
+
+
+             },
+            icon: Icon(Icons.
+            download_outlined,),
+          ),
+        ],*/
+
+      ),
         body:Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -119,13 +141,13 @@ class _BillDetailsState extends State<BillDetails> {
                       Container(
                         decoration: new BoxDecoration(
                           color:   Color(0xfff9f9ff) ,
-                            image: new DecorationImage(
+                           /* image: new DecorationImage(
                                      fit:BoxFit.contain ,
                                      repeat: ImageRepeat.repeat,
                                      image: new AssetImage(
                                        'assets/bills/billcenter.png',
                                      ),
-                                   ),
+                                   ),*/
                          ),
 
                         padding: EdgeInsets.all(10),
@@ -143,6 +165,7 @@ class _BillDetailsState extends State<BillDetails> {
                                       return Column(
                                         children:<Widget> [
                                           Row(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                               children: <Widget>[
                                                 Container(
                                                   width:
@@ -151,77 +174,120 @@ class _BillDetailsState extends State<BillDetails> {
                                                   child:  Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: <Widget>[
+                                                        Text('FROM:', style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontFamily: 'cera medium',
+                                                          fontSize: 16.0,
+                                                        ),),
                                                         Container(
-                                                          child: Text(snapshot.data!.docs[0]['b_storename'],
+                                                          width: 250,
+                                                          child: Text("${snapshot.data!.docs[0]['b_storename']}",
                                                             style: TextStyle(
-                                                              fontStyle: FontStyle.normal,
-
-                                                              color: Colors.black,
-                                                              fontWeight: FontWeight.bold,
+                                                               color: Colors.black,
+                                                              fontFamily: 'cera medium',
                                                               fontSize: 16.0,
                                                             ),),
                                                         ),
-                                                        Text(snapshot.data!.docs[0]['b_storeaddress1'],
+                                                        SizedBox(height: 3,),
+                                                        Text("${snapshot.data!.docs[0]['b_storeaddress1']}",
                                                           style: TextStyle(
                                                               color: Colors.blueGrey ,
-                                                              fontSize: 12,
+                                                              fontSize: 14,
                                                               fontStyle: FontStyle.normal,
                                                               fontWeight: FontWeight.w600),),
-                                                        Container(
-                                                          child: Padding(
-                                                              padding: EdgeInsets.all(1.0),
-                                                              child:
-                                                              Row(
-                                                                  children: <Widget>[
-                                                                    SvgPicture.asset(
-                                                                        "assets/bills/dateicon.svg"),
-                                                                    Text(" ${readTimestamp(snapshot
-                                                                        .data!
-                                                                        .docs[0]['b_number'].toString())}",
-                                                                      style: TextStyle(
-                                                                        color: Colors.black,
-                                                                        fontWeight: FontWeight
-                                                                            .bold,
-                                                                        fontSize: 12.0,
-                                                                      ),),
-                                                                  ])
-                                                          ),),
-                                                        SizedBox(height: 5),
-                                                        if(snapshot.data!.docs[0]['b_status']=="Active")
-                                                          Row(
-                                                            children: [
-                                                              Image.asset("assets/bills/load.gif",height: 20,width: 20,),
-                                                              Text("Live Billing",
-                                                                style: TextStyle(
-                                                                  color: UiColors.primary,
-                                                                  fontWeight: FontWeight.bold,
-                                                                  fontSize: 14.0,
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        SizedBox(height: 5),
+                                                        SizedBox(height: 5,),
+
+
+
                                                       ]),
                                                 ),
 
 
                                                 Expanded(
-                                                    child:Column(
-                                                        mainAxisAlignment : MainAxisAlignment.end,
-                                                        crossAxisAlignment:CrossAxisAlignment.end,
-                                                        children:[
-                                                         
-                                                            QrImage(
-                                                              data: "${snapshot.data!.docs[0]['bill_number']}",
-                                                              version: QrVersions.auto,
-                                                              size: 100.0,
-                                                            ),
+                                                    child: Container(
+                                                      width:
 
-                                                        ]
+                                                      (MediaQuery.of(context).size.width)/2 ,
+                                                      child:  Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: <Widget>[
+                                                            Text('To:', style: TextStyle(
+                                                              color: Colors.black,
+                                                              fontFamily: 'cera medium',
+                                                              fontSize: 16.0,
+                                                            ),),
+                                                            Container(
+                                                              width: 250,
+                                                              child: Text("${snapshot.data!.docs[0]['b_billing']['b_name']}",
+                                                                style: TextStyle(
+                                                                  color: Colors.black,
+
+                                                                  fontFamily: 'cera medium',
+                                                                  fontSize: 16.0,
+                                                                ), ),
+                                                            ),
+                                                            SizedBox(height: 3,),
+                                                            Text("${snapshot.data!.docs[0]['b_billing']['b_door']} ${snapshot.data!.docs[0]['b_billing']['b_address']}, \n ${snapshot.data!.docs[0]['b_billing']['b_city']} ${snapshot.data!.docs[0]['b_billing']['b_state']} - ${snapshot.data!.docs[0]['b_billing']['b_pincode']}.",
+                                                              style: TextStyle(
+                                                                  color: Colors.blueGrey ,
+                                                                  fontSize: 14,
+                                                                  fontStyle: FontStyle.normal,
+                                                                  fontWeight: FontWeight.w600), ),
+                                                            SizedBox(height: 5,),
+
+
+                                                          ]),
                                                     )
 
                                                 ),
                                               ]),
+                                          Divider(
+                                            color:Colors.black,
+                                            height: 10,
+                                          ),
+                                          Container(
+                                            child: Padding(
+                                                padding: EdgeInsets.all(1.0),
+                                                child:
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: <Widget>[
+                                                      Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons.today_outlined,size: 18,
+                                                          ),
+                                                          Text(" Date: ${readTimestampd(snapshot
+                                                              .data!
+                                                              .docs[0]['b_number'].toString())}",
+                                                            style: TextStyle(
+                                                              color: Colors.black,
+                                                              fontWeight: FontWeight
+                                                                  .bold,
+                                                              fontSize: 12.0,
+                                                            ),),
+                                                        ],
+                                                      ),
+
+                                                      Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons.watch_later_outlined,size: 18,
+                                                          ),
+                                                          Text(" Time: ${readTimestampt(snapshot
+                                                              .data!
+                                                              .docs[0]['b_number'].toString())}",
+                                                            style: TextStyle(
+                                                              color: Colors.black,
+                                                              fontWeight: FontWeight
+                                                                  .bold,
+                                                              fontSize: 12.0,
+                                                            ),),
+                                                        ],
+                                                      ),
+
+                                                    ])
+                                            ),),
                                           Divider(
                                             color:Colors.black,
                                             height: 10,
@@ -372,6 +438,7 @@ class _BillDetailsState extends State<BillDetails> {
                                                             textAlign: TextAlign.right,))
                                                     ]),
 
+                                                 // if(snapshot.data!.docs[0]['b_payments']['p_type']!='cheque on payment')
                                                     TableRow(children: [
 
                                                       Container(
@@ -384,19 +451,101 @@ class _BillDetailsState extends State<BillDetails> {
                                                       Container(
                                                         padding: EdgeInsets.all(0.0),
                                                         child: Text(
-                                                          "Total ", style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black ),
+                                                          "Sub Total", style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black ),
                                                           textAlign: TextAlign.left,),
                                                       ),
+
                                                       snapshot.data!.docs[0]['b_discount']==null ?   Container(
                                                           padding: EdgeInsets.all(0.0),
                                                           child:
-                                                          snapshot.data!.docs[0]['b_total'].toString()=="NaN" ?Text("0",style: TextStyle( color: Colors.black,)): Text("${snapshot.data!.docs[0]['b_total']}",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
+                                                           Text("${snapshot.data!.docs[0]['b_payments']['b_total']}",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
                                                             textAlign: TextAlign.right,)
                                                       ) :
                                                       Container(
                                                           padding: EdgeInsets.all(0.0),
                                                           child:
                                                           snapshot.data!.docs[0]['b_total'].toString()=="NaN" ?Text("0",style: TextStyle( color: Colors.black,)): Text("${snapshot.data!.docs[0]['b_discount']['b_total']}",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
+                                                            textAlign: TextAlign.right,)
+                                                      )
+                                                    ]),
+                                                    if(snapshot.data!.docs[0]['b_payments']['p_type']!='cheque on payment')
+                                                      TableRow(children: [
+
+                                                        Container(
+                                                          padding: EdgeInsets.all(0.0),
+                                                          child: Text(" ", textAlign: TextAlign.left,),),
+                                                        Container(
+                                                          width: 50,
+                                                          padding: EdgeInsets.all(0.0),
+                                                          child: Text(" ", textAlign: TextAlign.right,),),
+                                                        Container(
+                                                          padding: EdgeInsets.all(0.0),
+                                                          child: Text(
+                                                            "Discount", style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black ),
+                                                            textAlign: TextAlign.left,),
+                                                        ),
+
+                                                        Container(
+                                                            padding: EdgeInsets.all(0.0),
+                                                            child:
+                                                            Text("${snapshot.data!.docs[0]['b_payments']['percentage']}% Offer",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
+                                                              textAlign: TextAlign.right,)
+                                                        )
+                                                      ]),
+
+                                                    if(snapshot.data!.docs[0]['b_payments']['u_coins']=='Yes')
+                                                      TableRow(children: [
+
+                                                        Container(
+                                                          padding: EdgeInsets.all(0.0),
+                                                          child: Text(" ", textAlign: TextAlign.left,),),
+                                                        Container(
+
+                                                          padding: EdgeInsets.all(0.0),
+                                                          child: Text(" ", textAlign: TextAlign.right,),),
+                                                        Container(
+                                                          width:100,
+                                                          padding: EdgeInsets.all(0.0),
+                                                          child: Text(
+                                                            "Used coins", style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black ),
+                                                            textAlign: TextAlign.left,),
+                                                        ),
+
+                                                        Container(
+                                                            padding: EdgeInsets.all(0.0),
+                                                            child:
+                                                            Text("${snapshot.data!.docs[0]['b_payments']['total_coins']}",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
+                                                              textAlign: TextAlign.right,)
+                                                        )
+                                                      ]),
+
+                                                    TableRow(children: [
+
+                                                      Container(
+                                                        padding: EdgeInsets.all(0.0),
+                                                        child: Text(" ", textAlign: TextAlign.left,),),
+                                                      Container(
+                                            width: 50,
+                                                        padding: EdgeInsets.all(0.0),
+                                                        child: Text(
+                                                       
+                                                          " ", textAlign: TextAlign.right,),),
+                                                      Container(
+                                                        padding: EdgeInsets.all(0.0),
+                                                        child: Text(
+                                                          "Total ", style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black ),
+                                                          textAlign: TextAlign.left,),
+                                                      ),
+                                                      snapshot.data!.docs[0]['b_discount']==null ?   Container(
+                                                          padding: EdgeInsets.all(0.0),
+                                                          child:
+                                                          snapshot.data!.docs[0]['b_total'].toString()=="NaN" ?Text("0",style: TextStyle( color: Colors.black,)): Text("${num.parse(snapshot.data!.docs[0]['b_total']).toStringAsFixed(2)}",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
+                                                            textAlign: TextAlign.right,)
+                                                      ) :
+                                                      Container(
+                                                          padding: EdgeInsets.all(0.0),
+                                                          child:
+                                                          snapshot.data!.docs[0]['b_total'].toString()=="NaN" ?Text("0",style: TextStyle( color: Colors.black,)): Text("${num.parse(snapshot.data!.docs[0]['b_discount']['b_total']).toStringAsFixed(2)}",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
                                                             textAlign: TextAlign.right,)
                                                       )
                                                     ]),
@@ -424,106 +573,84 @@ class _BillDetailsState extends State<BillDetails> {
                                                       ]),
 
                                                   ]),
-                                              if(snapshot.data!.docs[0]['b_from']=="Pickup Order")
-                                                Column(
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Divider(),
-                                                    Text(" Pickup time : ${snapshot.data!.docs[0]['b_pickup']['b_pickuptime']}", style: TextStyle(color:Colors.black), ),
-                                                    Text(" Pickup date : ${snapshot.data!.docs[0]['b_pickup']['b_pickupdate']}", style: TextStyle(color:Colors.black), )
-                                                  ],
-                                                ),
-                                              if(snapshot.data!.docs[0]['b_status']=="Paid")
-                                                Column(
-                                                  children: [
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.end,
+                                                 Divider(),
+                                                 Column(
+                                                   children: [
+                                                     Row(
                                                       children: [
-                                                        Text(" Round of total : ", style: TextStyle(color:Colors.black), ),
-                                                        Text("${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${num.parse(snapshot.data!.docs[0]['b_total']).round()}", style: TextStyle(color:Colors.black), )
+                                                        Text(
+                                                                "Payment Details ", style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black ),
+                                                                textAlign: TextAlign.left,),
                                                       ],
-                                                    ),
-                                                    if(snapshot.data!.docs[0]['b_payments']['b_payment_cash']!=0)
-                                                      Column(
-                                                        children: [
-
-                                                          Divider(
-                                                            color:Colors.black,
-                                                            height: 5,
-                                                          ),
+                                                     ),
+                                                    Divider(),
+                                                   if(snapshot.data!.docs[0]['b_payments']['p_type']!='online')
+                                                   Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                                "Payment method :", style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black ),
+                                                                textAlign: TextAlign.left,),
+                                                         Text(
+                                                                "${snapshot.data!.docs[0]['b_payments']['p_type']}", style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black ),
+                                                                textAlign: TextAlign.left,),
+                                                      ],
+                                                     ),
+                                                   if(snapshot.data!.docs[0]['b_payments']['p_type']!='online')
+                                                  Divider(), 
+                                                   if(snapshot.data!.docs[0]['b_payments']['p_type']=='online')
+                                                     Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                                "Payment method :", style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black ),
+                                                                textAlign: TextAlign.left,),
+                                                         Text(
+                                                                "${snapshot.data!.docs[0]['b_payments']['p_type']}", style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black ),
+                                                                textAlign: TextAlign.left,),
+                                                      ],
+                                                     ),
+                                                    if(snapshot.data!.docs[0]['b_payments']['p_type']=='online')
+                                                       Divider(), 
+                                                          if(snapshot.data!.docs[0]['b_payments']['p_type']=='online')
                                                           Row(
-                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                            children: [
-                                                              Text("Paid by cash ", style: TextStyle(color:Colors.black),),
-
-                                                            ],
-                                                          ),
-                                                          Divider(
-                                                            color:Colors.black,
-                                                            height: 5,
-                                                          ),
-
-                                                          Row(
-                                                            mainAxisAlignment: MainAxisAlignment.end,
-                                                            children: [
-                                                              Text(" Tender : ", style: TextStyle(color:Colors.black),),
-                                                              Text("${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${snapshot.data!.docs[0]['b_payments']['b_payment_cash']}",style: TextStyle(color:Colors.black), )
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            mainAxisAlignment: MainAxisAlignment.end,
-                                                            children: [
-                                                              Text("Balance :  ", style: TextStyle(color:Colors.black), ),
-                                                              Text("${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${snapshot.data!.docs[0]['b_payments']['b_payment_balance']}", style: TextStyle(color:Colors.black), )
-                                                            ],
-                                                          ),
-
-                                                        ],
-                                                      ),
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                                "Payment ID :", style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black ),
+                                                                textAlign: TextAlign.left,),
+                                                         Text(
+                                                                "${snapshot.data!.docs[0]['b_payments']['p_transaction_id']}", style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black ),
+                                                                textAlign: TextAlign.left,),
+                                                      ],
+                                                     ),
+                                                   
+                                                   ],
+                                                 )
+                                                 ],
+                                          ),
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text("Shipping Address", style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black ),
+                                                textAlign: TextAlign.left, ),
 
 
+                                              Container(
+                                                width: MediaQuery.of(context).size.width/1.80,
+                                                child:       Text(
+                                                  "${snapshot.data!.docs[0]['b_shipping']['s_name']} \n ${snapshot.data!.docs[0]['b_shipping']['s_door']} ${snapshot.data!.docs[0]['b_shipping']['s_address']}, \n ${snapshot.data!.docs[0]['b_shipping']['s_city']} ${snapshot.data!.docs[0]['b_shipping']['s_state']} - ${snapshot.data!.docs[0]['b_shipping']['s_pincode']}.",
+                                        style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black ),
+                                      textAlign: TextAlign.right,),
+                                              )
 
-                                                    if(snapshot.data!.docs[0]['b_payments']['b_payment_card']!=0)
-                                                      Column(
-                                                          children: [
-                                                            Divider(
-                                                              color:Colors.black,
-                                                              height: 5,
-                                                            ),
-                                                            Row(
-                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                              children: [
-                                                                Text("Digital Payment",style: TextStyle(color:Colors.black), ),
-
-                                                              ],
-                                                            ),
-                                                            Divider(
-                                                              color:Colors.black,
-                                                              height: 5,
-                                                            ),
-                                                            Row(
-                                                              mainAxisAlignment: MainAxisAlignment.end,
-                                                              children: [
-                                                                Text("Total ",style: TextStyle(color:Colors.black), ),
-                                                                Text("${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${snapshot.data!.docs[0]['b_payments']['b_payment_card']}",style: TextStyle(color:Colors.black), )
-                                                              ],
-                                                            ),
-                                                            Row(
-                                                              mainAxisAlignment: MainAxisAlignment.end,
-                                                              children: [
-                                                                Text("Payment ID: ",style: TextStyle(fontSize: 15,color:Colors.black),),
-                                                                Text("${snapshot.data!.docs[0]['b_payments']['b_cardno']}",style: TextStyle(fontSize: 15,color:Colors.black),)
-                                                              ],
-                                                            ),
-                                                          ]),
-
-
-
-                                                  ],
-                                                ),
                                             ],
-                                          )
+                                          ),
+                                          Divider(
+
+                                            height: 5,
+                                          ),
                                         ],
                                       );
                                     });
@@ -552,10 +679,13 @@ class _BillDetailsState extends State<BillDetails> {
                   child:Container(
                     padding: EdgeInsets.symmetric(horizontal: 20.0),
                     decoration: BoxDecoration(
-                      color: UiColors.primary ,
+
+                          color:  UiColors.gradient1 ,
+
+
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20.0),
-                        topRight: Radius.circular(20.0),
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
                       ),
                     ),
                     child:
@@ -612,8 +742,8 @@ class _BillDetailsState extends State<BillDetails> {
                           textAlign: TextAlign.left,),
                         Text(
                           NormalUnobiStorage.read('CountryName') =='IN' ?
-                          "Price/Kg: ${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${p_unitrate}, GST: ${num.parse(p_sgst.toString())+num.parse(p_cgst.toString())}%  (${p_retun_open} - ${p_retun_type})":
-                          "Price/Kg: ${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${p_unitrate}, (${p_retun_open} - ${p_retun_type})"
+                          "Price/Kg: ${ConstantsN.currency}${p_unitrate}, GST: ${num.parse(p_sgst.toString())+num.parse(p_cgst.toString())}%  (${p_retun_open} - ${p_retun_type})":
+                          "Price/Kg: ${ConstantsN.currency}${p_unitrate}, (${p_retun_open} - ${p_retun_type})"
                           , style:  TextStyle(fontStyle: FontStyle.normal,fontSize: 10, color: Colors.black,),
                           textAlign: TextAlign.left,),
                       ],
@@ -626,8 +756,8 @@ class _BillDetailsState extends State<BillDetails> {
                           textAlign: TextAlign.left,),
                         Text(
                           NormalUnobiStorage.read('CountryName') =='IN' ?
-                          "Price/Kg: ${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${p_unitrate}, GST: ${num.parse(p_sgst.toString())+num.parse(p_cgst.toString())}%":
-                          "Price/Kg: ${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${p_unitrate}"
+                          "Price/Kg: ${ConstantsN.currency}${p_unitrate}, GST: ${num.parse(p_sgst.toString())+num.parse(p_cgst.toString())}%":
+                          "Price/Kg: ${ConstantsN.currency}${p_unitrate}"
                           , style:  TextStyle(fontStyle: FontStyle.normal,fontSize: 10, color: Colors.black,),
                           textAlign: TextAlign.left,),
                       ],
@@ -647,8 +777,8 @@ class _BillDetailsState extends State<BillDetails> {
                           textAlign: TextAlign.left,),
                         Text(
                           NormalUnobiStorage.read('CountryName') =='IN' ?
-                          "MRP: ${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${p_mrp}, (${p_retun_open} - ${p_retun_type})":
-                          "MRP: ${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${p_mrp}, GST: ${num.parse(p_sgst.toString())+num.parse(p_cgst.toString())}%  (${p_retun_open} - ${p_retun_type})"
+                          "MRP: ${ConstantsN.currency}${p_mrp}, (${p_retun_open} - ${p_retun_type})":
+                          "MRP: ${ConstantsN.currency}${p_mrp}, GST: ${num.parse(p_sgst.toString())+num.parse(p_cgst.toString())}%  (${p_retun_open} - ${p_retun_type})"
                           , style:  TextStyle(fontStyle: FontStyle.normal, color: Colors.black,),
                           textAlign: TextAlign.left,)
                       ],
@@ -668,22 +798,22 @@ class _BillDetailsState extends State<BillDetails> {
 
                           discounted_price==null || discounted_price>=0 ?
                           NormalUnobiStorage.read('CountryName') =='IN' ?
-                          "Actual cost: ${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${p_mrp}, GST: ${num.parse(p_sgst.toString())+num.parse(p_cgst.toString())}% ":
-                          "Actual cost: ${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${p_mrp}":
+                          "Actual cost: ${ConstantsN.currency}${p_mrp}, GST: ${num.parse(p_sgst.toString())+num.parse(p_cgst.toString())}% ":
+                          "Actual cost: ${ConstantsN.currency}${p_mrp}":
                           NormalUnobiStorage.read('CountryName') =='IN' ?
-                          "Actual cost: ${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${p_mrp}, GST: ${num.parse(p_sgst.toString())+num.parse(p_cgst.toString())}%,\nDiscount: ${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${double.parse(discounted_price.toString()).toStringAsFixed(2)}":
-                          "Actual cost: ${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${p_mrp}\nDiscount: ${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${double.parse(discounted_price.toString()).toStringAsFixed(2)}",
+                          "Actual cost: ${ConstantsN.currency}${p_mrp}, GST: ${num.parse(p_sgst.toString())+num.parse(p_cgst.toString())}%,\nDiscount: ${ConstantsN.currency}${double.parse(discounted_price.toString()).toStringAsFixed(2)}":
+                          "Actual cost: ${ConstantsN.currency}${p_mrp}\nDiscount: ${ConstantsN.currency}${double.parse(discounted_price.toString()).toStringAsFixed(2)}",
                           style:  TextStyle(fontStyle: FontStyle.normal,fontSize: 10, color: Colors.black,),
                           textAlign: TextAlign.left,):
                         Text(
 
                           discounted_price==null || discounted_price>=0 ?
                           NormalUnobiStorage.read('CountryName') =='IN' ?
-                          "MRP: ${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${p_mrp}, GST: ${num.parse(p_sgst.toString())+num.parse(p_cgst.toString())}% ":
-                          "MRP: ${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${p_mrp}":
+                          "MRP: ${ConstantsN.currency}${p_mrp}, GST: ${num.parse(p_sgst.toString())+num.parse(p_cgst.toString())}% ":
+                          "MRP: ${ConstantsN.currency}${p_mrp}":
                           NormalUnobiStorage.read('CountryName') =='IN' ?
-                          "MRP: ${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${p_mrp}, GST: ${num.parse(p_sgst.toString())+num.parse(p_cgst.toString())}%,\nDiscount: ${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${double.parse(discounted_price.toString()).toStringAsFixed(2)}":
-                          "MRP: ${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${p_mrp}\nDiscount: ${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency}${double.parse(discounted_price.toString()).toStringAsFixed(2)}",
+                          "MRP: ${ConstantsN.currency}${p_mrp}, GST: ${num.parse(p_sgst.toString())+num.parse(p_cgst.toString())}%,\nDiscount: ${ConstantsN.currency}${double.parse(discounted_price.toString()).toStringAsFixed(2)}":
+                          "MRP: ${ConstantsN.currency}${p_mrp}\nDiscount: ${ConstantsN.currency}${double.parse(discounted_price.toString()).toStringAsFixed(2)}",
                           style:  TextStyle(fontStyle: FontStyle.normal,fontSize: 10, color: Colors.black,),
                           textAlign: TextAlign.left,),
                       ],
@@ -823,6 +953,28 @@ class _BillDetailsState extends State<BillDetails> {
     int timestamp=int.parse(timestamps);
     var now = DateTime.now();
     var format = DateFormat('dd - MMM - yyyy hh:mm a');
+
+    var date = DateTime.fromMillisecondsSinceEpoch((timestamp));
+    var diff = now.difference(date);
+    var time = format.format(date);
+    var times = time.toString();
+    return times;
+  }
+  String readTimestampd(  timestamps) {
+    int timestamp=int.parse(timestamps);
+    var now = DateTime.now();
+    var format = DateFormat('dd - MMM - yyyy');
+
+    var date = DateTime.fromMillisecondsSinceEpoch((timestamp));
+    var diff = now.difference(date);
+    var time = format.format(date);
+    var times = time.toString();
+    return times;
+  }
+  String readTimestampt(  timestamps) {
+    int timestamp=int.parse(timestamps);
+    var now = DateTime.now();
+    var format = DateFormat('hh:mm a');
 
     var date = DateTime.fromMillisecondsSinceEpoch((timestamp));
     var diff = now.difference(date);

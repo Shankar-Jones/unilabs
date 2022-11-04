@@ -2,8 +2,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:onshop/Controllers/Constants.dart';
+import 'package:unilabs/Controllers/Constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+refreshPostMethod(urllink,jsonvalue) async {
+  var token = await FirebaseAuth.instance.currentUser?.getIdToken();
+  
+    var responses = await http.post(Uri.parse(urllink), headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',"authorization": 'Bearer $token'
+    },
+        body:  jsonvalue
+    );
+    print(responses.body);
+      List userdata = json.decode(responses.body);
+      print(userdata);
+      return userdata;
+ }
+   
 
  PostMethod(urllink,jsonvalue) async {
   var token = await FirebaseAuth.instance.currentUser?.getIdToken();
@@ -36,15 +50,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 
  GetMethod(urllink) async{
     var token = await FirebaseAuth.instance.currentUser?.getIdToken();
+  
      var response2s = await http.get(Uri.parse(
                         "${ConstantsN.baseurl}/${urllink}"),
                         headers: {
                           "Accept": "application/json", "authorization": 'Bearer $token'
                         }
                     );
-
-                   List getdata = json.decode(response2s.body);
-                   return getdata;
+print("urllinkaaaaaaaaaaaaaaa");
+print(urllink);
+                   List getdataa = json.decode(response2s.body);
+                   return getdataa;
 
  }  
  

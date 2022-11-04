@@ -1,19 +1,28 @@
+import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:onshop/Models/Account_OptionWidget.dart';
-import 'package:onshop/Models/HeadingText.dart';
-import 'package:onshop/Models/Loading.dart';
-import 'package:onshop/Models/MedButton.dart';
-import 'package:onshop/Models/ProductCard.dart';
-import 'package:onshop/Models/Theme.dart';
+import 'package:unilabs/Models/Account_OptionWidget.dart';
+import 'package:unilabs/Models/HeadingText.dart';
+import 'package:unilabs/Models/Loading.dart';
+import 'package:unilabs/Models/MedButton.dart';
+import 'package:unilabs/Models/MyCoins.dart';
+import 'package:unilabs/Models/ProductCard.dart';
+import 'package:unilabs/Models/Theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:onshop/Views/Home/AddressInfo.dart';
-import 'package:onshop/Views/Home/BasePage.dart';
-import 'package:onshop/Views/Home/Myorders.dart';
-import 'package:onshop/Views/SignUp/SplashScreen.dart';
+import 'package:unilabs/Views/HelpDesk/ClosedTIcket.dart';
+import 'package:unilabs/Views/HelpDesk/TicketLIsting.dart';
+import 'package:unilabs/Views/HelpDesk/TopicList.dart';
+import 'package:unilabs/Views/Home/AddressInfo.dart';
+import 'package:unilabs/Views/Home/BasePage.dart';
+import 'package:unilabs/Views/Home/Myorders.dart';
+import 'package:unilabs/Views/Home/TrackingOrders.dart';
+import 'package:unilabs/Views/SignUp/SplashScreen.dart';
+
+import 'UnoCoins_Activities.dart';
 
 
-final ShopStorage=GetStorage();
+final UlStorage=GetStorage();
 final AppTheme=GetStorage();
 class MyAccount extends StatefulWidget {
   const MyAccount({Key? key}) : super(key: key);
@@ -25,21 +34,27 @@ class MyAccount extends StatefulWidget {
 class _MyAccountState extends State<MyAccount> {
   @override
   Widget build(BuildContext context) {
-    print(ShopStorage.read('u_mail'));
+    print(UlStorage.read('u_mail'));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
+
         Center(
-            child: HeadingText1(text: 'My Account',)),
+            child: HeadingPoppins(text: 'My Account',)),
         SizedBox(height:30),
 
 
 
         Container(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.all(13),
           decoration: BoxDecoration(
-              color: UiColors.primary,
+              gradient: LinearGradient(
+                  colors: [UiColors.gradient1,UiColors.gradient2,],
+                  begin: Alignment.topLeft,
+                  end: Alignment. bottomRight,
+                  stops: [-10,10]
+              ),
               borderRadius: BorderRadius.circular(8)
           ),
           child: Column(
@@ -51,30 +66,32 @@ class _MyAccountState extends State<MyAccount> {
                   Row(
                     children: [
                       CircleAvatar(
-                        radius: 25,
-                        foregroundImage: AssetImage('assets/profile.jpg'),
+                        radius: 30,
+                        backgroundColor: Colors.transparent,
+                        foregroundImage:  MemoryImage(Base64Codec().decode(UlStorage.read('profile'))
+                        ),
                       ),
                       SizedBox(width: 10,),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
 
                         children: [
-                          Text(ShopStorage.read('u_name'),style: TextStyle(color: Colors.white,fontSize: 18,fontFamily: 'poppins'),),
+                          Text(UlStorage.read('u_name'),style: TextStyle(color: Colors.white,fontSize: 18,fontFamily: 'poppins'),),
                           SizedBox(height: 7,),
                           Row(
                 children: [
                   SvgPicture.asset('assets/svgs/mobile.svg',height: 19,),
                   SizedBox(width: 7,),
-                  Text(ShopStorage.read('mob'),style: TextStyle(color: Colors.white70, )),
+                  Text(UlStorage.read('mob'),style: TextStyle(color: Colors.white70, )),
 
                 ],
               ),
-                SizedBox(height: 7,),
-                 Row(
+                           SizedBox(height: 7,),
+                           Row(
                 children: [
                   SvgPicture.asset('assets/svgs/mail.svg',height: 19,),
                   SizedBox(width: 7,),
-                  Text(ShopStorage.read('u_mail').toString(),style: TextStyle(color: Colors.white70, )),
+                  Text(UlStorage.read('u_mail').toString(),style: TextStyle(color: Colors.white70, )),
 
                 ],
               ),
@@ -84,11 +101,24 @@ class _MyAccountState extends State<MyAccount> {
                       )
                     ],
                   ),
-                  InkWell(
-                    onTap: (){
-                         Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Addressinfo()));
-                    },
-                    child: SvgPicture.asset('assets/svgs/Edit.svg',height: 25,)),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      InkWell(
+                        onTap: (){
+                             Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Addressinfo()));
+                        },
+                        child: SvgPicture.asset('assets/svgs/Edit.svg',height: 25,)),
+                      SizedBox(height: 10,),
+                      InkWell(
+                          onTap: (){
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context)=> UnoCoinsActivities())
+                            );
+                          },
+                          child: MyCoins( ))
+                    ],
+                  ),
                 ],
               ),
               SizedBox(height: 20),
@@ -108,9 +138,13 @@ class _MyAccountState extends State<MyAccount> {
           ),
           child: Column(
             children: [
-              AccountOptionWidget(IconUrl: 'assets/svgs/AddressInfo.svg', text: 'My Orders', OnTap: (){
+             /* AccountOptionWidget(IconUrl: 'assets/svgs/Myorder.svg', text: 'My Orders', OnTap: (){
 
                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> MyOrders()));
+              },),*/
+              AccountOptionWidget(IconUrl: 'assets/svgs/PaymentMethod.svg', text: 'My Orders', OnTap: (){
+
+                       Navigator.of(context).push(MaterialPageRoute(builder: (context)=> TrackingOrders()));
               },),
               
               AccountOptionWidget(IconUrl: 'assets/svgs/AddressInfo.svg', text: 'Address info', OnTap: (){
@@ -118,8 +152,11 @@ class _MyAccountState extends State<MyAccount> {
               },),
               
              
-              AccountOptionWidget(IconUrl: 'assets/svgs/Help.svg', text: 'Help', OnTap: (){
-                 showDialog(
+              AccountOptionWidget(
+                IconUrl: 'assets/svgs/Help.svg', text: 'Help',
+                OnTap: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=> TopicListing()));
+                /* showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
@@ -186,11 +223,63 @@ class _MyAccountState extends State<MyAccount> {
                                 );
                               },
                             );
-                    
+               */     
 
               },),
 
+StreamBuilder(
+                                        stream: FirebaseFirestore.instance
+                                            .collection("unobilabs_tickets").where('t_from',isEqualTo: '${UlStorage.read('mob')}').where('t_status',isEqualTo: 'Opened').snapshots(),
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot<QuerySnapshot> snapshot) {
+                                              if(snapshot.hasData){
+                                                     return   
+                                                     snapshot.data!.docs.length>0?
+                                                       InkWell(
+        onTap:(){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> TicketListing()));
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 11.0,),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  SvgPicture.asset('assets/svgs/AddressInfo.svg'),
 
+                  SizedBox(width: 10,),
+
+                  Text('Tickets',style: TextStyle( fontSize: 17.5, fontFamily: 'archivo'),),
+
+                ],
+              ),
+              Row(
+                children: [
+               
+                       Icon(
+                    Icons.radio_button_on ,color: Colors.red,
+                  ), 
+                  Icon(
+                    Icons.keyboard_arrow_right_outlined,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      )
+ 
+                                                    : AccountOptionWidget(IconUrl: 'assets/svgs/AddressInfo.svg', text: 'Tickets', OnTap: (){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ClosedTickets()));
+              },);
+                                          
+                                              }
+                                              else{
+return Container();
+                                              }
+                                           }),
 
             ],
           ),
@@ -236,7 +325,7 @@ class _MyAccountState extends State<MyAccount> {
                                         UiButtonSec(text: 'Logout', ontap: ()async{
 
 
-                                          ShopStorage.erase();
+                                          UlStorage.erase();
                                           AppTheme.erase();
 
 

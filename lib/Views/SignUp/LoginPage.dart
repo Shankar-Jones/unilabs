@@ -5,18 +5,19 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:onshop/Controllers/ApiCalls.dart';
-import 'package:onshop/Models/Countries.dart';
+import 'package:unilabs/Controllers/ApiCalls.dart';
+import 'package:unilabs/Models/Countries.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:onshop/Models/Loading.dart';
-import 'package:onshop/Models/MedButton.dart';
-import 'package:onshop/Models/Theme.dart';
-import 'package:onshop/Views/SignUp/OtpVerificationPage.dart';
+import 'package:unilabs/Models/Loading.dart';
+import 'package:unilabs/Models/MedButton.dart';
+import 'package:unilabs/Models/Theme.dart';
+import 'package:unilabs/Views/SignUp/OtpVerificationPage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 final AppTheme = GetStorage();
 final ShopTempStorage = GetStorage();
- final TempnormalStorage=GetStorage(); 
- final ShopStorage=GetStorage();
+final UlStorage = GetStorage();
+ final TempnormalStorage=GetStorage();
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -87,7 +88,7 @@ print(userdatas);
   }
 }
 void initState() {
-  //  ShopStorage.erase();
+  //  UlStorage.erase();
 
 init();
     getCountryName();
@@ -112,9 +113,10 @@ void dispose() {
             decoration: BoxDecoration(
                 gradient: AppTheme.read('mode')=="0" ?
                 LinearGradient(
-                  colors: [UiColors.primarySec,UiColors.primary,],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
+                  colors: [UiColors.gradient1,UiColors.gradient2,],
+                  begin: Alignment.topCenter,
+                  end: Alignment. topRight,
+                  stops: [-10,10]
                 ) : LinearGradient(
                   colors: [UiColors.BottomNavDarkmode,UiColors.BottomNavDarkmode,],
                   begin: Alignment.centerLeft,
@@ -135,16 +137,15 @@ void dispose() {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(height: 25),
-                      Card(
-                        elevation: 5,
+                      Container(
+
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 25.0,horizontal: 40),
-                          child: SvgPicture.asset('assets/svgs/DNA.svg',height: 70,color: UiColors.primary),
+                          padding: const EdgeInsets.only(left:40,right:40,top: 40,bottom: 0),
+                          child: Image.asset('assets/unobiLabs_login.png',height: 130,),
                         ),
                       ),
-                      SizedBox(height: 10),
-                      Text('On-Shop',style: TextStyle(color: Colors.white,fontFamily: 'semi bold',fontSize: 22),)
-                    ],
+
+                      ],
                   ),
                 ),
                 ),
@@ -163,10 +164,11 @@ void dispose() {
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
+
                           SizedBox(height: 15,),
-                          Text('Login',style: TextStyle(fontSize: 22,fontFamily: 'sans bold',color: AppTheme.read('mode')=="0" ? Colors.black : Colors.white),),
-                          SizedBox(height: 35,),
-                          Text('We will send you a One-time Password \n to this number',textAlign: TextAlign.center,style: TextStyle(fontFamily: 'semi bold',fontSize: 15,height: 1.5,color: AppTheme.read('mode')=="0" ? Colors.black : Colors.white),),
+                          Text('Login',style: TextStyle(fontSize: 22 ,color: AppTheme.read('mode')=="0" ? Colors.black : Colors.white),),
+                          SizedBox(height: 20,),
+                          Text('We will send you a One-time Password \n to this number',textAlign: TextAlign.center,style: TextStyle(fontFamily: 'poppins medium',fontSize: 15,height: 1.5,color: AppTheme.read('mode')=="0" ? Colors.black : Colors.white),),
                           SizedBox(height: 35,),
                           //Text('Enter Phone Number',textAlign: TextAlign.center,style: TextStyle(fontFamily: 'sans bold',fontSize: 16,color:AppTheme.read('mode')=="0" ? Colors.black26 : Colors.grey),),
                           SizedBox(height: 15,),
@@ -261,11 +263,11 @@ void dispose() {
       },
       codeSent: (String verificationId, int? resendToken) async {
         TempnormalStorage.write('verificationId', '${verificationId}');
-          TempnormalStorage.write('mob', '${_phone}');
+          TempnormalStorage.write('mobs', '${_phone}');
            TempnormalStorage.write('fcm', fctokn);
                 setState(() {
           TempnormalStorage.write('verificationId', '${verificationId}');
-           TempnormalStorage.write('mob', '${_phone}');
+           TempnormalStorage.write('mobs', '${_phone}');
               TempnormalStorage.write('fcm', fctokn);
         });
         if(userdata[0]['status']=='noks'){
@@ -273,10 +275,13 @@ void dispose() {
           errortoast("Failed to send");
         }
         else{
-          successtoast("OTP Successfully sent");
+          successtoast("OTP successfully sent");
           Navigator.pop(context);
+          setState(() {
+            UlStorage.write('resendNumber', _phone);
+          });
          Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => OtpScreen(Fulldata:userdata))
+                  MaterialPageRoute(builder: (context) => OtpScreen(Fulldata:userdata, fctoken: fctokn,))
                 );
         }
       },

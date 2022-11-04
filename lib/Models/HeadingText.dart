@@ -16,6 +16,6 @@ class HeadingPoppins extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text,style: TextStyle(fontSize: 17.5,fontFamily: 'poppins'),);
+    return Text(text,style: TextStyle(fontSize: 17.5,fontFamily: 'cera medium'),);
   }
 }

@@ -1,4 +1,7 @@
 import 'dart:convert';
+
+import 'package:lottie/lottie.dart';
+
 import 'dart:math';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -22,23 +25,24 @@ var noimg="iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAQAAADTdEb+AAAABGdBTUEAALGPC/xhBQAAA
 var onstage;
 var salesp;
 var stableval=0;
- 
+
 final UlStorage=GetStorage();
 
 TextEditingController inval=TextEditingController();
 TextEditingController quantity=TextEditingController();
 final NormalUnobiStorage=GetStorage();
-class ProductDetails extends StatefulWidget {
+class ProductsDetails_by_UriLink extends StatefulWidget {
   final frmwhr;
-  final data;
+
   final packSize;
-  const ProductDetails({Key? key, this.data, this.frmwhr,this.packSize}) : super(key: key);
+  final id;
+  const ProductsDetails_by_UriLink({Key? key,  this.frmwhr,this.packSize,this.id}) : super(key: key);
 
   @override
-  _ProductDetailsState createState() => _ProductDetailsState();
+  _ProductsDetails_by_UriLinkState createState() => _ProductsDetails_by_UriLinkState();
 }
 
-class _ProductDetailsState extends State<ProductDetails> {
+class _ProductsDetails_by_UriLinkState extends State<ProductsDetails_by_UriLink> {
   final CarouselController _controller = CarouselController();
   TextEditingController _Pincode = TextEditingController();
   int _current = 0;
@@ -46,46 +50,61 @@ class _ProductDetailsState extends State<ProductDetails> {
   int addtoCart=1;
   bool iconshow=false;
   bool gotocartshow=false;
-  @override
-  void initState(){
-    if( UlStorage.read('pincode')!=null){
-      setState(() {
-        _Pincode.text= UlStorage.read('pincode');
-      });
-    }
-    addtoCart=1;
-    indexval=1;
-     quantity.text="1";
-    stableval=0;
-    inval.text='1';
-    gotocartshow=false;
-    if(widget.data['p_fav'].contains(UlStorage.read('mob'))){
-      setState(() {
-        iconshow=true;
+  List pdata=[];
+  String pid='';
+  Apicallforproductdetail() async{
 
-      });
+    List a=await GetMethod("addProducts/RHVR5A/${widget.id[0]}${widget.id[1]}${widget.id[2]}${widget.id[3]}${widget.id[4]}${widget.id[5]}${widget.id[6]}${widget.id[7]}${widget.id[8]}${widget.id[9]}${widget.id[10]}${widget.id[11]}${widget.id[12]}");
 
-    }
-    else{
-      setState(() {
-        iconshow=false;
-      }); }
-      if(widget.data['p_img'].length!=0){
+    setState(() {
+      pdata=a;
+      print(pdata);
+
+      if( UlStorage.read('pincode')!=null){
         setState(() {
-          onstage= widget.data['p_img'][0];
+          _Pincode.text= UlStorage.read('pincode');
+        });
+      }
+      addtoCart=1;
+      indexval=1;
+      quantity.text="1";
+      stableval=0;
+      inval.text='1';
+      gotocartshow=false;
+      if( pdata[0]['p_fav'].contains(UlStorage.read('mob'))){
+        setState(() {
+          iconshow=true;
+
         });
 
-    }
-    if(widget.data['p_type']){
-    setState(() {
-      salesp= widget.data['p_sellingprice']["0"]['p_price'];
+      }
+      else{
+        setState(() {
+          iconshow=false;
+        }); }
+      if( pdata[0]['p_img'].length!=0){
+        setState(() {
+          onstage=  pdata[0]['p_img'][0];
+        });
+
+      }
+      if( pdata[0]['p_type']){
+        setState(() {
+          salesp=  pdata[0]['p_sellingprice']["0"]['p_price'];
+        });
+      }
+      else{
+        setState(() {
+          salesp=  pdata[0]['p_sellingprice'];
+        });
+      }
     });
-    }
-    else{
-  setState(() {
-    salesp= widget.data['p_sellingprice'];
-  });
-    }
+  }
+  
+  @override
+  void initState(){
+
+    Apicallforproductdetail();
     super.initState();
   }
   void dispose(){
@@ -94,16 +113,26 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.data['p_sellingprice']);
-    print('widget.data');
-//inval.text=indexval.toString();
- // print("${widget.data['p_name']}""(${widget.packSize})");
+print(widget.id);
+print(pid);
     return SafeArea(
-        child: Scaffold(
+        child:pdata.length==0 ? Scaffold(body: Center(child:  Lottie.asset('assets/loading.json',height: 150,fit: BoxFit.fill,)),)
+       : Scaffold(
           backgroundColor: Colors.white,
-          appBar: shopappBar(widget.data['p_name'],context),
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.white,
+            title: Text('Product Details',style: TextStyle(fontSize: 17.5,fontFamily: 'poppins',color: Colors.black),),
+            centerTitle: true,
+            leading: IconButton(
+              onPressed: (){
+
+              },icon: Icon(Icons.arrow_back_ios,color: Colors.white,),),
+
+          ),
           body: SingleChildScrollView(
-            child: Column(
+            child:
+            Column(
               children: [
                 Align(
                   alignment: Alignment.topRight,
@@ -113,7 +142,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         setState(() {
                           iconshow=false;
                         });
-                        List res=await PutMethod('showOrders/RHVR5A/${widget.data['p_barcode']}',
+                        List res=await PutMethod('showOrders/RHVR5A/${ pdata[0]['p_barcode']}',
                             jsonEncode({
                               "type" : "remove",
                               "phone" : UlStorage.read('mob')
@@ -124,7 +153,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         setState(() {
                           iconshow=true;
                         });
-                        List resa=await PutMethod('showOrders/RHVR5A/${widget.data['p_barcode']}',
+                        List resa=await PutMethod('showOrders/RHVR5A/${ pdata[0]['p_barcode']}',
                             jsonEncode({
                               "type" : "add",
                               "phone" : UlStorage.read('mob')
@@ -148,12 +177,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                   ),
                 ),
-
                 Container(
                     height: MediaQuery.of(context).size.height*0.45,
-                   
+
                     child: Center(child:
-                    widget.data['p_img'].length==0 ?
+                     pdata[0]['p_img'].length==0 ?
                     Image.memory(
                         Base64Codec().decode(noimg) ):
                     Column(
@@ -175,19 +203,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
 
-                            for(int s=0;s<widget.data['p_img'].length;s++)
+                            for(int s=0;s< pdata[0]['p_img'].length;s++)
                               GestureDetector(
                                 onTap: (){
                                   setState(() {
-                                    onstage=widget.data['p_img'][s];
+                                    onstage= pdata[0]['p_img'][s];
                                   });
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
-                                      height: 80,width: 80,
-                                      decoration: BoxDecoration(border:Border.all() ),
-                                      child: Image.network('https://unobilabs.com${widget.data['p_img'][s]}'),),
+                                    height: 80,width: 80,
+                                    decoration: BoxDecoration(border:Border.all() ),
+                                    child: Image.network('https://unobilabs.com${ pdata[0]['p_img'][s]}'),),
                                 ),
                               ),
                           ],
@@ -206,8 +234,8 @@ class _ProductDetailsState extends State<ProductDetails> {
 
                     borderRadius: BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20)),
                   ),
-                
-                 
+
+
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 10),
                     child: Column(
@@ -221,17 +249,17 @@ class _ProductDetailsState extends State<ProductDetails> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('${widget.data['p_brand']}',style:TextStyle(color: UiColors.primary,fontFamily: 'cera medium')),
+                                Text('${ pdata[0]['p_brand']}',style:TextStyle(color: UiColors.primary,fontFamily: 'cera medium')),
                                 Container(
                                     width:200,
-                                    child: Text('${widget.data['p_name']}',style: TextStyle(fontSize: 17,fontFamily: 'cera medium'),overflow: TextOverflow.ellipsis,maxLines: 4,)),
+                                    child: Text('${ pdata[0]['p_name']}',style: TextStyle(fontSize: 17,fontFamily: 'cera medium'),overflow: TextOverflow.ellipsis,maxLines: 4,)),
                                 SizedBox(height: 8),
 
 
-                             /*   Container(
+                                /*   Container(
                                     width:280,
 
-                                    child: Text(widget.data['p_maincategory'],style: TextStyle(fontSize: 14,color: Colors.black54,fontFamily: 'poppins medium',height: 1.2),)),*/
+                                    child: Text( pdata[0]['p_maincategory'],style: TextStyle(fontSize: 14,color: Colors.black54,fontFamily: 'poppins medium',height: 1.2),)),*/
                               ],
                             ),
 
@@ -244,7 +272,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     borderRadius: BorderRadius.circular(100)
                                 ),
                                 child:
-                                /*   widget.data['p_inventory']!=0 ? */
+                                /*    pdata[0]['p_inventory']!=0 ? */
                                 Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 6),
                                   child: Row(
@@ -254,18 +282,18 @@ class _ProductDetailsState extends State<ProductDetails> {
                                           FocusScope.of(context).requestFocus(new FocusNode());
                                           if(indexval>1 ){
 
-                                            if(widget.data['p_type']){
+                                            if( pdata[0]['p_type']){
 
-                                              print(widget.data['p_sellingprice']["${stableval}"]['p_start']);
-                                              print(widget.data['p_price'] );
+                                              print( pdata[0]['p_sellingprice']["${stableval}"]['p_start']);
+                                              print( pdata[0]['p_price'] );
                                               print(stableval);
-                                              if(num.parse(widget.data['p_sellingprice']["${stableval}"]['p_start'])==indexval){
+                                              if(num.parse( pdata[0]['p_sellingprice']["${stableval}"]['p_start'])==indexval){
                                                 setState(() {
-                                                  if(widget.data['p_price']!=stableval-1){
-                                                    salesp=widget.data['p_sellingprice']["${stableval-1}"]['p_price'];
+                                                  if( pdata[0]['p_price']!=stableval-1){
+                                                    salesp= pdata[0]['p_sellingprice']["${stableval-1}"]['p_price'];
                                                   }
                                                   indexval= indexval-1;
-                                                  if(widget.data['p_price']==stableval-1){
+                                                  if( pdata[0]['p_price']==stableval-1){
 
                                                   }else{
                                                     stableval=stableval-1;
@@ -293,7 +321,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                             decoration: BoxDecoration(
 
                                                 color: UiColors.gradient2,
-                                              borderRadius: BorderRadius.circular(5)
+                                                borderRadius: BorderRadius.circular(5)
                                             ),
                                             child: Padding(
                                               padding: const EdgeInsets.all(6.5),
@@ -357,24 +385,24 @@ class _ProductDetailsState extends State<ProductDetails> {
                                           ),
                                         ),
                                       ),
-                                  /*    Text('${indexval}',style: TextStyle(fontFamily: 'cera medium',fontSize: 17,color: UiColors.primary),),
+                                      /*    Text('${indexval}',style: TextStyle(fontFamily: 'cera medium',fontSize: 17,color: UiColors.primary),),
                                   */
                                       SizedBox(width: 5,),
                                       InkWell(
                                         onTap: ()async{
                                           FocusScope.of(context).requestFocus(new FocusNode());
-                                          if(widget.data['p_type']){
+                                          if( pdata[0]['p_type']){
 
-                                            print(widget.data['p_sellingprice']["${stableval}"]['p_end']);
-                                            print(widget.data['p_price'] );
+                                            print( pdata[0]['p_sellingprice']["${stableval}"]['p_end']);
+                                            print( pdata[0]['p_price'] );
                                             print(stableval);
-                                            if(num.parse(widget.data['p_sellingprice']["${stableval}"]['p_end'])==indexval){
+                                            if(num.parse( pdata[0]['p_sellingprice']["${stableval}"]['p_end'])==indexval){
                                               setState(() {
-                                                if(widget.data['p_price']!=stableval+1){
-                                                  salesp=widget.data['p_sellingprice']["${stableval+1}"]['p_price'];
+                                                if( pdata[0]['p_price']!=stableval+1){
+                                                  salesp= pdata[0]['p_sellingprice']["${stableval+1}"]['p_price'];
                                                 }
                                                 indexval= indexval+1;
-                                                if(widget.data['p_price']==stableval+1){
+                                                if( pdata[0]['p_price']==stableval+1){
 
                                                 }else{
                                                   stableval=stableval+1;
@@ -420,7 +448,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         Row(
                           children: [
                             Text('Category: ',style: TextStyle(fontSize: 15,fontFamily: 'cera medium'),),
-                            Text('${widget.data['p_maincategory']}',style: TextStyle(fontSize: 15,fontFamily: 'cera bold',color: UiColors.primary),),
+                            Text('${ pdata[0]['p_maincategory']}',style: TextStyle(fontSize: 15,fontFamily: 'cera bold',color: UiColors.primary),),
                           ],
                         ),
                         SizedBox(height: 2),
@@ -434,8 +462,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                         SizedBox(height: 5,),
                         Container(
                           decoration: BoxDecoration(
-                            color: UiColors.primaryShade,
-                            borderRadius: BorderRadius.circular(3)
+                              color: UiColors.primaryShade,
+                              borderRadius: BorderRadius.circular(3)
 
                           ),
                           width: double.infinity,
@@ -446,11 +474,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text('${widget.data['p_type'] ? '(0% Off)': '(${widget.data['p_discount']}% Off)'} ',style: TextStyle(color: UiColors.primary,fontFamily: 'poppins',fontSize: 15.5),),
-                                    Text('${ConstantsN.currency}${widget.data['p_mrp']} ',style: TextStyle(color: Colors.black,fontFamily: 'cera',decoration: TextDecoration.lineThrough,fontSize: 14),),
-                                    Text('${ConstantsN.currency}${ widget.data['p_type'] ?
-                                    widget.data['p_sellingprice']["0"]['p_price'] :
-                                    widget.data['p_sellingprice']} ',style: TextStyle(color: UiColors.black,fontFamily: 'cera medium',fontSize: 18),),
+                                    Text('${ pdata[0]['p_type'] ? '(0% Off)': '(${ pdata[0]['p_discount']}% Off)'} ',style: TextStyle(color: UiColors.primary,fontFamily: 'poppins',fontSize: 15.5),),
+                                    Text('${ConstantsN.currency}${ pdata[0]['p_mrp']} ',style: TextStyle(color: Colors.black,fontFamily: 'cera',decoration: TextDecoration.lineThrough,fontSize: 14),),
+                                    Text('${ConstantsN.currency}${  pdata[0]['p_type'] ?
+                                     pdata[0]['p_sellingprice']["0"]['p_price'] :
+                                     pdata[0]['p_sellingprice']} ',style: TextStyle(color: UiColors.black,fontFamily: 'cera medium',fontSize: 18),),
                                   ],
                                 )),
                           ),
@@ -467,7 +495,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         SizedBox(height: 10,),
                         Align(
                             alignment: Alignment.topLeft,
-                            child: HtmlWidget(widget.data['p_desc'],)),
+                            child: HtmlWidget( pdata[0]['p_desc'],)),
                         SizedBox(height: 10,),
 
                         Align(
@@ -475,79 +503,79 @@ class _ProductDetailsState extends State<ProductDetails> {
                             child: Text('Available Offers',style: TextStyle(fontFamily: 'cera bold',fontSize: 16,color: UiColors.primary),)),
                         SizedBox(height: 10,),
                         Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 19),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 3),
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.bolt_outlined,
-                                          size: 18,color: Colors.blue,
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
-                                            children: <TextSpan>[
-                                              TextSpan(text:'UPI ',style:TextStyle(fontFamily: 'cera medium',fontSize: 13.5,color: Colors.black)),
-                                              TextSpan(text:'payment ',style:TextStyle(fontSize: 13,color: Colors.black)),
-                                              TextSpan(text:'(3.00% off)',style:TextStyle(fontFamily: 'cera medium',fontSize: 13,color: Colors.black)),
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 19),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 3),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.bolt_outlined,
+                                        size: 18,color: Colors.blue,
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                          children: <TextSpan>[
+                                            TextSpan(text:'UPI ',style:TextStyle(fontFamily: 'cera medium',fontSize: 13.5,color: Colors.black)),
+                                            TextSpan(text:'payment ',style:TextStyle(fontSize: 13,color: Colors.black)),
+                                            TextSpan(text:'(3.00% off)',style:TextStyle(fontFamily: 'cera medium',fontSize: 13,color: Colors.black)),
 
-                                            ],
-                                          ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 3),
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.bolt_outlined,
-                                          size: 18,color: Colors.blue,
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
-                                            children: <TextSpan>[
-                                              TextSpan(text:'Card ',style:TextStyle(fontFamily: 'cera medium',fontSize: 13.5,color: Colors.black)),
-                                              TextSpan(text:'payment ',style:TextStyle(fontSize: 13,color: Colors.black)),
-                                              TextSpan(text:'(3.00% off)',style:TextStyle(fontFamily: 'cera medium',fontSize: 13,color: Colors.black)),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 3),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.bolt_outlined,
+                                        size: 18,color: Colors.blue,
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                          children: <TextSpan>[
+                                            TextSpan(text:'Card ',style:TextStyle(fontFamily: 'cera medium',fontSize: 13.5,color: Colors.black)),
+                                            TextSpan(text:'payment ',style:TextStyle(fontSize: 13,color: Colors.black)),
+                                            TextSpan(text:'(3.00% off)',style:TextStyle(fontFamily: 'cera medium',fontSize: 13,color: Colors.black)),
 
-                                            ],
-                                          ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 3),
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.bolt_outlined,
-                                          size: 18,color: Colors.blue,
-                                        ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 3),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.bolt_outlined,
+                                        size: 18,color: Colors.blue,
+                                      ),
 
-                                        RichText(
-                                          text: TextSpan(
-                                            children: <TextSpan>[
-                                              TextSpan(text:'Cash on Delivery ',style:TextStyle(fontFamily: 'cera medium',fontSize: 13.5,color: Colors.black)),
-                                              TextSpan(text:'payment ',style:TextStyle(fontSize: 13,color: Colors.black)),
-                                              TextSpan(text:'(5.00% off)',style:TextStyle(fontFamily: 'cera medium',fontSize: 13,color: Colors.black)),
+                                      RichText(
+                                        text: TextSpan(
+                                          children: <TextSpan>[
+                                            TextSpan(text:'Cash on Delivery ',style:TextStyle(fontFamily: 'cera medium',fontSize: 13.5,color: Colors.black)),
+                                            TextSpan(text:'payment ',style:TextStyle(fontSize: 13,color: Colors.black)),
+                                            TextSpan(text:'(5.00% off)',style:TextStyle(fontFamily: 'cera medium',fontSize: 13,color: Colors.black)),
 
-                                            ],
-                                          ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
+                                ),
 
-                                ],
-                              ),
-                            ),),
+                              ],
+                            ),
+                          ),),
                         SizedBox(height: 15,),
                         Align(
                             alignment: Alignment.topLeft,
@@ -559,108 +587,108 @@ class _ProductDetailsState extends State<ProductDetails> {
                           children: [
                             Container(
                               padding: EdgeInsets.only(left: 0),
-                                width:180,
-                                height:25,
-                                decoration: BoxDecoration(
-                                 /* border: Border(
+                              width:180,
+                              height:25,
+                              decoration: BoxDecoration(
+                                /* border: Border(
                                     bottom: BorderSide(
                                       color: Colors.w,
                                       width: 1.0,
                                     ),
 
                                   ),*/
-                                ),
-                                child: TextFormField(
+                              ),
+                              child: TextFormField(
                                   controller: _Pincode,
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(6),// for mobile
-                                    ],
-                                    keyboardType: TextInputType.number,textAlign: TextAlign.center,
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(6),// for mobile
+                                  ],
+                                  keyboardType: TextInputType.number,textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontFamily: 'cera medium',fontSize: 17,letterSpacing: 2),
-                                        decoration: InputDecoration(hintText: 'Enter Pincode')
-                                ),
+                                  decoration: InputDecoration(hintText: 'Enter Pincode')
+                              ),
                             ),
                             SizedBox(width: 15,),
                             InkWell(
                               onTap: (){
-                                print("widget.data['p_pincode']");
-                                print(widget.data['p_pincode']);
+                                print(" pdata[0]['p_pincode']");
+                                print( pdata[0]['p_pincode']);
 
                                 if(_Pincode.text.length == 6){
-                                  if(widget.data['p_pincode'] == 'All'){
-                                  successtoast('Pincode Available');
-                                }
+                                  if( pdata[0]['p_pincode'] == 'All'){
+                                    successtoast('Pincode Available');
+                                  }
+                                  else{
+
+                                    if( pdata[0]['p_pincode'].contains('#${_Pincode.text[0]}${_Pincode.text[1]}')){
+                                      successtoast('Pincode available');
+                                    }
+
                                     else{
 
-                                    if(widget.data['p_pincode'].contains('#${_Pincode.text[0]}${_Pincode.text[1]}')){
-                                    successtoast('Pincode available');
-                                  }
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
 
-                                else{
-
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-
-                                        contentPadding: EdgeInsets.all(12),
-                                        content: StatefulBuilder(
-                                            builder: (BuildContext context, StateSetter setState) {
-                                              return Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: SafeArea(
-                                                  child: Container(
+                                            contentPadding: EdgeInsets.all(12),
+                                            content: StatefulBuilder(
+                                                builder: (BuildContext context, StateSetter setState) {
+                                                  return Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: SafeArea(
+                                                      child: Container(
                                                         width: 300,
 
-                                                    margin: const EdgeInsets.all(8.0),
+                                                        margin: const EdgeInsets.all(8.0),
 
-                                                    child:  Column(
-                                                      mainAxisSize: MainAxisSize.min,
-                                                      children: [
-                                                        SizedBox(height: 10,),
-                                                        Text('Product not available in your pincode, Do you want to view other products?',style: TextStyle(fontFamily: 'poppins medium'),textAlign: TextAlign.center,),
-                                                        SizedBox(height: 30,),
-                                                        Row(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                        child:  Column(
+                                                          mainAxisSize: MainAxisSize.min,
                                                           children: [
-                                                            UiCancelButtom(text: ' Cancel ', ontap: (){
-                                                              Closepop(context);
-                                                            },),
-                                                            SizedBox(width: 15,),
-                                                            UiButtonSec(text: 'Go ahead',
-                                                                ontap: (){
-                                                                  Navigator.pop(context);
+                                                            SizedBox(height: 10,),
+                                                            Text('Product not available in your pincode, Do you want to view other products?',style: TextStyle(fontFamily: 'poppins medium'),textAlign: TextAlign.center,),
+                                                            SizedBox(height: 30,),
+                                                            Row(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: [
+                                                                UiCancelButtom(text: ' Cancel ', ontap: (){
+                                                                  Closepop(context);
+                                                                },),
+                                                                SizedBox(width: 15,),
+                                                                UiButtonSec(text: 'Go ahead',
+                                                                    ontap: (){
+                                                                      Navigator.pop(context);
                                                                       Navigator.of(context).push(
-                                                                        MaterialPageRoute(builder: (context)=> AllProducts())
+                                                                          MaterialPageRoute(builder: (context)=> AllProducts())
                                                                       );
 
-                                                            }),
+                                                                    }),
 
+
+
+                                                              ],
+                                                            ),
+                                                            SizedBox(height: 10,),
 
 
                                                           ],
                                                         ),
-                                                        SizedBox(height: 10,),
-
-
-                                                      ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                              );
+                                                  );
 
-                                            }),
+                                                }),
+                                          );
+                                        },
                                       );
-                                    },
-                                  );
 
-                                }
                                     }
+                                  }
                                 }
                                 else{
 
-                                  if(widget.data['p_pincode'].contains('#${_Pincode.text[0]}${_Pincode.text[1]}')){
+                                  if( pdata[0]['p_pincode'].contains('#${_Pincode.text[0]}${_Pincode.text[1]}')){
                                     successtoast('Pincode available');
                                   }
 
@@ -698,58 +726,58 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ),
                         SizedBox(height: 30,),
 
-                        if(widget.data['p_type'])
+                        if( pdata[0]['p_type'])
                           Divider(),
-                          if(widget.data['p_type'])
-                      Column(
-                         children: [
+                        if( pdata[0]['p_type'])
+                          Column(
+                            children: [
 
-                                  if(widget.data['p_price']!=0)
-                                  Column(
+                              if( pdata[0]['p_price']!=0)
+                                Column(
 
-                                    children: [
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment : MainAxisAlignment.spaceBetween  ,
+                                      mainAxisSize : MainAxisSize.max,
+                                      crossAxisAlignment :CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Quantity',
+                                          style: TextStyle(fontSize: 18,fontFamily: 'cera medium'),
+                                        ),
+                                        Text(
+                                          'Price',
+                                          style: TextStyle(fontSize: 18,fontFamily: 'cera medium'),
+                                        ),
+
+
+                                      ],
+                                    ),
+
+                                    for(int g=0;g< pdata[0]['p_price'];g++)
                                       Row(
-                          mainAxisAlignment : MainAxisAlignment.spaceBetween  ,
-                          mainAxisSize : MainAxisSize.max,
-                          crossAxisAlignment :CrossAxisAlignment.start,
-                          children: [
-                                            Text(
-                                              'Quantity',
-                    style: TextStyle(fontSize: 18,fontFamily: 'cera medium'),
-                                            ),
-                                            Text(
-                                              'Price',
-                    style: TextStyle(fontSize: 18,fontFamily: 'cera medium'),
-                                            ),
+                                        mainAxisAlignment : MainAxisAlignment.spaceBetween  ,
+                                        mainAxisSize : MainAxisSize.max,
+                                        crossAxisAlignment :CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
 
+                                            '${ pdata[0]['p_sellingprice']['${g}']['p_start']} To ${ pdata[0]['p_sellingprice']["${g}"]['p_end']}',
+                                            style: TextStyle(fontSize: 16,),textAlign: TextAlign.left,
+                                          ),
 
-                              ],
-                        ),
+                                          Text(
+                                            '${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency} ${ pdata[0]['p_sellingprice']["${g}"]['p_price']}',
+                                            style: TextStyle(fontSize: 16),textAlign: TextAlign.left,
+                                          ),
 
-                                      for(int g=0;g<widget.data['p_price'];g++)
-                                      Row(
-                          mainAxisAlignment : MainAxisAlignment.spaceBetween  ,
-                          mainAxisSize : MainAxisSize.max,
-                          crossAxisAlignment :CrossAxisAlignment.start,
-                          children: [
-                            Text(
+                                        ],
+                                      ),
+                                  ],
+                                ),
 
-                              '${widget.data['p_sellingprice']['${g}']['p_start']} To ${widget.data['p_sellingprice']["${g}"]['p_end']}',
-          style: TextStyle(fontSize: 16,),textAlign: TextAlign.left,
-                            ),
-
-                            Text(
-                              '${NormalUnobiStorage.read('CountryName')== 'IN'?ConstantsN.currencyin:ConstantsN.currency} ${widget.data['p_sellingprice']["${g}"]['p_price']}',
-      style: TextStyle(fontSize: 16),textAlign: TextAlign.left,
-                            ),
-
-           ],
-                        ),
-                    ],
-                                  ),
-
-                    ],
-                  ),
+                            ],
+                          ),
 
 
                         SizedBox(height: 5,),
@@ -835,7 +863,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     if(gotocartshow==false)
                       UiButton(text: '  Add to Cart  ', ontap: () async{
                         if(_Pincode.text.length == 6){
-                          if(widget.data['p_pincode'][0] == 'All'){
+                          if( pdata[0]['p_pincode'][0] == 'All'){
                             setState(() {
                               addtoCart=indexval;
                             });
@@ -852,19 +880,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 jsonEncode({
                                   "code" : "RHVR5A",
                                   "phone" : UlStorage.read('mob'),
-                                  "barocde" :widget.data['p_barcode'],
-                                  "p_name" :"${widget.data['p_name']}""(${widget.packSize})",
-                                  "p_cgst" :widget.data['p_cgst'],
-                                  "p_sgst" :widget.data['p_sgst'],
-                                  "p_mrp" :widget.data['p_mrp'],
+                                  "barocde" : pdata[0]['p_barcode'],
+                                  "p_name" :"${ pdata[0]['p_name']}""(${widget.packSize})",
+                                  "p_cgst" : pdata[0]['p_cgst'],
+                                  "p_sgst" : pdata[0]['p_sgst'],
+                                  "p_mrp" : pdata[0]['p_mrp'],
                                   "p_salesprice" : salesp,
                                   "p_qty" :indexval,
-                                  if(widget.data['p_img'].length!=0)
-                                    "p_img":[widget.data['p_img'][0]],
-                                  if(widget.data['p_img'].length==0)
-                                    "p_img" : widget.data['p_img'],
-                                  "category" :  widget.data['p_maincategory'],
-                                  "p_desc" :  widget.data['p_desc'],
+                                  if( pdata[0]['p_img'].length!=0)
+                                    "p_img":[ pdata[0]['p_img'][0]],
+                                  if( pdata[0]['p_img'].length==0)
+                                    "p_img" :  pdata[0]['p_img'],
+                                  "category" :   pdata[0]['p_maincategory'],
+                                  "p_desc" :   pdata[0]['p_desc'],
                                   "p_pincode" :  _Pincode.text,
                                 }));
 
@@ -884,7 +912,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           }
                           else{
 
-                            if(widget.data['p_pincode'].contains('#${_Pincode.text[0]}${_Pincode.text[1]}')){
+                            if( pdata[0]['p_pincode'].contains('#${_Pincode.text[0]}${_Pincode.text[1]}')){
                               setState(() {
                                 addtoCart=indexval;
                               });
@@ -901,19 +929,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   jsonEncode({
                                     "code" : "RHVR5A",
                                     "phone" : UlStorage.read('mob'),
-                                    "barocde" :widget.data['p_barcode'],
-                                    "p_name" :"${widget.data['p_name']}""(${widget.packSize})",
-                                    "p_cgst" :widget.data['p_cgst'],
-                                    "p_sgst" :widget.data['p_sgst'],
-                                    "p_mrp" :widget.data['p_mrp'],
+                                    "barocde" : pdata[0]['p_barcode'],
+                                    "p_name" :"${ pdata[0]['p_name']}""(${widget.packSize})",
+                                    "p_cgst" : pdata[0]['p_cgst'],
+                                    "p_sgst" : pdata[0]['p_sgst'],
+                                    "p_mrp" : pdata[0]['p_mrp'],
                                     "p_salesprice" : salesp,
                                     "p_qty" :indexval,
-                                    if(widget.data['p_img'].length!=0)
-                                      "p_img":[widget.data['p_img'][0]],
-                                    if(widget.data['p_img'].length==0)
-                                      "p_img" : widget.data['p_img'],
-                                    "category" :  widget.data['p_maincategory'],
-                                    "p_desc" :  widget.data['p_desc'],
+                                    if( pdata[0]['p_img'].length!=0)
+                                      "p_img":[ pdata[0]['p_img'][0]],
+                                    if( pdata[0]['p_img'].length==0)
+                                      "p_img" :  pdata[0]['p_img'],
+                                    "category" :   pdata[0]['p_maincategory'],
+                                    "p_desc" :   pdata[0]['p_desc'],
                                     "p_pincode" :  _Pincode.text,
                                   }));
 
@@ -998,7 +1026,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         }
                         else{
 
-                          if(widget.data['p_pincode'].contains('#${_Pincode.text[0]}${_Pincode.text[1]}')){
+                          if( pdata[0]['p_pincode'].contains('#${_Pincode.text[0]}${_Pincode.text[1]}')){
                             setState(() {
                               addtoCart=indexval;
                             });
@@ -1015,19 +1043,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 jsonEncode({
                                   "code" : "RHVR5A",
                                   "phone" : UlStorage.read('mob'),
-                                  "barocde" :widget.data['p_barcode'],
-                                  "p_name" :"${widget.data['p_name']}""(${widget.packSize})",
-                                  "p_cgst" :widget.data['p_cgst'],
-                                  "p_sgst" :widget.data['p_sgst'],
-                                  "p_mrp" :widget.data['p_mrp'],
+                                  "barocde" : pdata[0]['p_barcode'],
+                                  "p_name" :"${ pdata[0]['p_name']}""(${widget.packSize})",
+                                  "p_cgst" : pdata[0]['p_cgst'],
+                                  "p_sgst" : pdata[0]['p_sgst'],
+                                  "p_mrp" : pdata[0]['p_mrp'],
                                   "p_salesprice" : salesp,
                                   "p_qty" :indexval,
-                                  if(widget.data['p_img'].length!=0)
-                                    "p_img":[widget.data['p_img'][0]],
-                                  if(widget.data['p_img'].length==0)
-                                    "p_img" : widget.data['p_img'],
-                                  "category" :  widget.data['p_maincategory'],
-                                  "p_desc" :  widget.data['p_desc'],
+                                  if( pdata[0]['p_img'].length!=0)
+                                    "p_img":[ pdata[0]['p_img'][0]],
+                                  if( pdata[0]['p_img'].length==0)
+                                    "p_img" :  pdata[0]['p_img'],
+                                  "category" :   pdata[0]['p_maincategory'],
+                                  "p_desc" :   pdata[0]['p_desc'],
                                   "p_pincode" :  _Pincode.text,
                                 }));
 
@@ -1068,19 +1096,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                               jsonEncode({
                                 "code" : "RHVR5A",
                                 "phone" : UlStorage.read('mob'),
-                                "barocde" :widget.data['p_barcode'],
-                                "p_name" :"${widget.data['p_name']}""(${widget.packSize})",
-                                "p_cgst" :widget.data['p_cgst'],
-                                "p_sgst" :widget.data['p_sgst'],
-                                "p_mrp" :widget.data['p_mrp'],
+                                "barocde" : pdata[0]['p_barcode'],
+                                "p_name" :"${ pdata[0]['p_name']}""(${widget.packSize})",
+                                "p_cgst" : pdata[0]['p_cgst'],
+                                "p_sgst" : pdata[0]['p_sgst'],
+                                "p_mrp" : pdata[0]['p_mrp'],
                                 "p_salesprice" : salesp,
                                 "p_qty" :indexval,
-                                if(widget.data['p_img'].length!=0)
-                                  "p_img":[widget.data['p_img'][0]],
-                                if(widget.data['p_img'].length==0)
-                                  "p_img" : widget.data['p_img'],
-                                "category" :  widget.data['p_maincategory'],
-                                "p_desc" :  widget.data['p_desc'],
+                                if( pdata[0]['p_img'].length!=0)
+                                  "p_img":[ pdata[0]['p_img'][0]],
+                                if( pdata[0]['p_img'].length==0)
+                                  "p_img" :  pdata[0]['p_img'],
+                                "category" :   pdata[0]['p_maincategory'],
+                                "p_desc" :   pdata[0]['p_desc'],
                                 "p_pincode" :  _Pincode.text,
                               }));
 
@@ -1100,9 +1128,9 @@ class _ProductDetailsState extends State<ProductDetails> {
 
 
                           Navigator.pushAndRemoveUntil(
-                          context, MaterialPageRoute(builder: (context) => BaseScreen(toScreen: 'cart',)),
-                              (Route<dynamic> route) => false,
-                        );}
+                            context, MaterialPageRoute(builder: (context) => BaseScreen(toScreen: 'cart',)),
+                                (Route<dynamic> route) => false,
+                          );}
                         else{
                           Navigator.pushAndRemoveUntil(
                             context, MaterialPageRoute(builder: (context) => BaseScreen(toScreen: 'cart',)),
@@ -1124,16 +1152,16 @@ class _ProductDetailsState extends State<ProductDetails> {
                                           jsonEncode({
                                             "code" : "RHVR5A",
                                             "phone" : UlStorage.read('mob'),
-                                            "barocde" :widget.data['p_barcode'],
-                                            "p_name" :widget.data['p_name'],
-                                            "p_cgst" :widget.data['p_cgst'],
-                                            "p_sgst" :widget.data['p_sgst'],
-                                            "p_mrp" :widget.data['p_mrp'],
+                                            "barocde" : pdata[0]['p_barcode'],
+                                            "p_name" : pdata[0]['p_name'],
+                                            "p_cgst" : pdata[0]['p_cgst'],
+                                            "p_sgst" : pdata[0]['p_sgst'],
+                                            "p_mrp" : pdata[0]['p_mrp'],
                                             "p_salesprice" : salesp,
                                             "p_qty" :indexval,
-                                            "p_img" :  widget.data['p_img'],
-                                            "category" :  widget.data['p_maincategory'],
-                                            "p_desc" :  widget.data['p_desc'],
+                                            "p_img" :   pdata[0]['p_img'],
+                                            "category" :   pdata[0]['p_maincategory'],
+                                            "p_desc" :   pdata[0]['p_desc'],
                                           }));
 
                                       if(added[0]['status']=='ok'){
@@ -1156,7 +1184,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               ),
             ),
           ):Container(),
-        bottomNavigationBar: Bottomnavigation(toScreen:widget.frmwhr,),
+          bottomNavigationBar: Bottomnavigation(toScreen:widget.frmwhr,),
         ));
   }
 }

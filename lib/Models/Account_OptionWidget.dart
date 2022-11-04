@@ -33,7 +33,7 @@ class _AccountOptionWidgetState extends State<AccountOptionWidget> {
 
                   SizedBox(width: 10,),
 
-                  Text(widget.text,style: TextStyle(  fontFamily: 'archivo'),),
+                  Text(widget.text,style: TextStyle( fontSize: 17.5, fontFamily: 'archivo'),),
 
                 ],
               ),

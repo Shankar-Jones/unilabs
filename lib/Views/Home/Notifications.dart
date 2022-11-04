@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:onshop/Models/Theme.dart';
+import 'package:unilabs/Models/Theme.dart';
 
 
 
@@ -55,7 +55,12 @@ class _MyNotificationsState extends State<MyNotifications> {
                                     SizedBox(width: 20,),
                                     Container(
                                       decoration: BoxDecoration(
-                                        color: UiColors.primary,
+                                       gradient:    LinearGradient(
+                                              colors: [UiColors.gradient1,UiColors.gradient2,],
+                                              begin: Alignment.topCenter,
+                                              end: Alignment. topRight,
+                                              stops: [-10,10]
+                                          ),
                                         shape: BoxShape.circle
                                       ),
                                       child: Padding(

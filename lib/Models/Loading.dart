@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:onshop/Models/Theme.dart';
- 
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:unilabs/Models/Theme.dart';
+import 'package:lottie/lottie.dart';
 
 final AppTheme = GetStorage();
 
@@ -29,25 +30,30 @@ class _LoadingState extends State<Loading > {
                 borderRadius: BorderRadius.all(Radius.circular(10.0))),
             contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
             content: Container(
+                  height: 80,
 
-                 width: 150,
-                child: Row(
-                    mainAxisAlignment :MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment : CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding:EdgeInsets.fromLTRB(0,0,0,0),
-                        child:AppTheme.read('mode')=="0" ? Image.asset('assets/loading.gif', height: 50,  ) : Image.asset('assets/gif_darkmode.gif', height: 50,  )),
 
-                      Padding(
-                          padding:EdgeInsets.fromLTRB(0,0,15,0),
-                          child: Text("${widget.title}...",
-                              style: TextStyle(
-                                  color:AppTheme.read('mode')=="0" ? Color(0xFF5B6978) : Colors.white
-                              )
-                          )),
-                    ]
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                      mainAxisAlignment :MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment : CrossAxisAlignment.center,
+                      children: [
+                         Lottie.asset('assets/loading.json',height: 150,fit: BoxFit.fill,),
+
+                        Transform.translate(
+                          offset: Offset(-12.0,0.0),
+                          child: Padding(
+                              padding:EdgeInsets.fromLTRB(0,0,15,0),
+                              child: Text("${widget.title}...",
+                                  style: TextStyle(fontFamily: 'poppins',
+                                      color:AppTheme.read('mode')=="0" ? Color(0xFF5B6978) : Colors.white
+                                  )
+                              )),
+                        ),
+                      ]
+                  ),
                 )
             )
 
@@ -74,28 +80,33 @@ class _LoadingwdState extends State<Loadingwd > {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () => Future.value(false),
-        child: AlertDialog(backgroundColor: UiColors.containerDarkmode,
-
+        child: AlertDialog(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10.0))),
             contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
             content: Container(
-
-                width: 150,
+                width: 150.0,
+                height: 80.0,
                 child: Row(
-                    mainAxisAlignment :MainAxisAlignment.center,
+                    mainAxisAlignment :MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment : CrossAxisAlignment.center,
                     children: [
                       Padding(
-                          padding:EdgeInsets.fromLTRB(0,0,0,0),
-                          child: Image.asset('assets/loading.gif', height: 50,  )),
+                        padding:EdgeInsets.fromLTRB(18.0,6.0,10.0,6.0),
+                        child:SpinKitDoubleBounce(
+                          color: Colors.red,
+
+
+                          size: 50.0,
+
+                        ),),
 
                       Padding(
-                          padding:EdgeInsets.fromLTRB(0,0,15,0),
+                          padding:EdgeInsets.fromLTRB(20.0,6.0,6.0,6.0),
                           child: Text("${widget.title}...",
                               style: TextStyle(
-                                  color:AppTheme.read('mode')=="0" ? Color(0xFF5B6978) : Colors.white
+                                  color:  Color(0xFF5B6978)
                               )
                           )),
                     ]

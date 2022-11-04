@@ -18,7 +18,12 @@ final ontap;
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(6),
-            color: UiColors.primary
+            gradient: LinearGradient(
+                colors: [UiColors.gradient1,UiColors.gradient2,],
+                begin: Alignment.topCenter,
+                end: Alignment. topRight,
+                stops: [-10,10]
+            ),
 
           ),
           child: Padding(
@@ -31,7 +36,7 @@ final ontap;
                     Icons.shopping_cart_outlined,color: Colors.white,size: 30,
                   ),
                   SizedBox(width: 5,),
-                  Text(text,style:TextStyle(color: Colors.white,fontFamily: 'Archivo bold',fontSize: 18),),
+                  Text(text,style:TextStyle(color: Colors.white,fontFamily: 'cera medium',fontSize: 18),),
                 ],
               ),
             ),
@@ -52,22 +57,27 @@ final ontap;
     return InkWell(
       onTap: ontap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 70.0),
+        padding: const EdgeInsets.symmetric(horizontal: 0),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(6),
-            color: UiColors.primary
-
+              gradient:
+              LinearGradient(
+                  colors: [UiColors.gradient1,UiColors.gradient2,],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [-10,10]
+              )
           ),
           child: Padding(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(8),
             child: Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
 
                   SizedBox(width: 5,),
-                  Text(text,style:TextStyle(color: Colors.white,fontFamily: 'Archivo bold',fontSize: 18),),
+                  Text(text,style:TextStyle(color: Colors.white,fontFamily: 'cera medium',fontSize: 18),),
                 ],
               ),
             ),
@@ -93,8 +103,13 @@ final ontap;
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(6),
-            color: UiColors.primary
-
+              gradient:
+              LinearGradient(
+                  colors: [UiColors.gradient1,UiColors.gradient2,],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [-10,10]
+              )
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),

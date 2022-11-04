@@ -5,20 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
-import 'package:onshop/Controllers/ApiCalls.dart';
-import 'package:onshop/Models/Countries.dart';
-import 'package:onshop/Models/Theme.dart';
-import 'package:onshop/Views/Home/BasePage.dart';
-import 'package:onshop/Views/Home/Home.dart';
-import 'package:onshop/Views/SignUp/LoginPage.dart';
-import 'package:onshop/Views/SignUp/PersonalDetailsPage.dart';
-import 'package:onshop/main.dart';
+import 'package:unilabs/Controllers/ApiCalls.dart';
+import 'package:unilabs/Models/Countries.dart';
+import 'package:unilabs/Models/Theme.dart';
+import 'package:unilabs/Views/Home/BasePage.dart';
+import 'package:unilabs/Views/Home/Home.dart';
+import 'package:unilabs/Views/SignUp/LoginPage.dart';
+import 'package:unilabs/Views/SignUp/PersonalDetailsPage.dart';
+import 'package:unilabs/main.dart';
  
 
 
 final AppTheme = GetStorage();
 final MedTempStorage = GetStorage();
-final ShopStorage=GetStorage();
+final  UlStorage = GetStorage();
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -29,7 +29,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   List catlist=[];
    categorygetcall() async{
-    List catlist=await GetMethod('addCategory/RH46IB');
+    List catlist=await GetMethod('addCategory/RHVR5A');
     setState(() {
       print("catlistxxxxx");
       print(catlist);
@@ -67,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen> {
    }
   }
   void initState() {
-   // ShopStorage.erase();
+    //UlStorage.erase();
   
        if(AppTheme.read('mode')==null){
      setState(() {
@@ -79,8 +79,7 @@ class _SplashScreenState extends State<SplashScreen> {
      if(MedTempStorage.read('dial_code')==null || MedTempStorage.read('dial_code')=='null'){
       getCountryName();
     }
-
-       Timer(Duration(seconds: 3), () {
+  Timer(Duration(seconds: 3), () {
          navigateFromSplash();
        });
     super.initState();
@@ -94,6 +93,8 @@ class _SplashScreenState extends State<SplashScreen> {
   
   @override
   Widget build(BuildContext context) {
+     print(UlStorage.read('mob'));
+     print( UlStorage.read('pincode'));
     return SafeArea(
       child: Scaffold(
 
@@ -101,7 +102,7 @@ class _SplashScreenState extends State<SplashScreen> {
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Center(
-            child: Image.asset('assets/splashscreen.jpeg')
+            child: SvgPicture.asset('assets/unobilabs_logo_new.svg')
           ),
         ),
       ),
@@ -109,14 +110,14 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
     navigateFromSplash () async {
-    if(ShopStorage.read('mob')==null){
+    if(UlStorage.read('mob')==null){
       Navigator.pushAndRemoveUntil(
         context, MaterialPageRoute(builder: (context) => LoginScreen()),
             (Route<dynamic> route) => false,
       );
     }
     else{
-      if(ShopStorage.read('u_name')==null){
+      if(UlStorage.read('u_name')==null){
             Navigator.pushAndRemoveUntil(
                   context, MaterialPageRoute(builder: (context) => PersonalDetailsPage(catdata:catlist)),
                       (Route<dynamic> route) => false,
@@ -125,7 +126,7 @@ class _SplashScreenState extends State<SplashScreen> {
       }
       else{
         Navigator.pushAndRemoveUntil(
-          context, MaterialPageRoute(builder: (context) => BaseScreen()),
+          context, MaterialPageRoute(builder: (context) => BaseScreen(toScreen: '',)),
               (Route<dynamic> route) => false,
         );
       }
