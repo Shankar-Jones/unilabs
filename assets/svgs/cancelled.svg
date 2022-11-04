@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60">
+  <g id="cancelled" transform="translate(-267 -556.25)">
+    <circle id="Ellipse_58" data-name="Ellipse 58" cx="30" cy="30" r="30" transform="translate(267 556.25)" fill="#fd0000" opacity="0.1"/>
+    <g id="cancelled-2" data-name="cancelled" transform="translate(289.593 579.09)">
+      <path id="Path_201" data-name="Path 201" d="M8.425,7.16l5.632-5.631A.9.9,0,1,0,12.791.262h0L7.16,5.894,1.528.262A.9.9,0,0,0,.262,1.528L5.894,7.16.262,12.791a.9.9,0,1,0,1.266,1.266L7.16,8.425l5.631,5.632a.9.9,0,0,0,1.266-1.266Z" transform="translate(0)" fill="#fd0000"/>
+    </g>
+  </g>
+</svg>
